@@ -4,13 +4,13 @@ import Table, { TableHead, TableBody } from "./components/Table";
 import Row from "./components/Row";
 
 import { url } from "./api";
+import Form from "./components/Form";
 import InfoCard from "./components/InfoCard";
 
 function App() {
   const [list, setList] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-
-  console.log(selectedUser);
+  const [showForm, setShowForm] = useState(false);
 
   useEffect(() => {
     fetch(url)
@@ -24,14 +24,14 @@ function App() {
 
   const handleSelectUser = (user) => {
     const foundUser = list.find(({ id }) => id === user.id);
-    console.log(selectedUser);
-    console.log(foundUser);
 
     setSelectedUser(foundUser);
-    console.log(selectedUser);
   };
 
-  console.log(list);
+  const handleAddUser = (user) => {
+    setList((prevState) => [user, ...prevState]);
+    setShowForm(false);
+  };
 
   return (
     <div className="min-h-screen bg-blue-100 ">
@@ -45,10 +45,14 @@ function App() {
               Показать мало
             </button>
           </div>
-          <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-500 rounded">
-            Добавить
+          <button
+            onClick={() => setShowForm(!showForm)}
+            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-500 rounded"
+          >
+            {!showForm ? "Добавить" : "Закрыть форму"}
           </button>
         </div>
+        {showForm && <Form onAddItem={handleAddUser} />}
         <div className="w-2/3 my-2 flex flex-row mb-4">
           <input
             className="appearance-none w-1/2 block mr-2 bg-blue-100 text-gray-700 border border-blue-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
