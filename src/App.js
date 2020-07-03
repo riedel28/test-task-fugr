@@ -5,12 +5,16 @@ import Row from "./components/Row";
 
 import { url } from "./api";
 import Form from "./components/Form";
+import Filter from "./components/Filter";
 import InfoCard from "./components/InfoCard";
+import ErrorMessage from "./components/ErrorMessage";
 
 function App() {
   const [list, setList] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showForm, setShowForm] = useState(false);
+  const [filteredList, setFilteredList] = useState([]);
+  const [error, setError] = useState("");
 
   useEffect(() => {
     fetch(url)
@@ -19,6 +23,7 @@ function App() {
       })
       .then((json) => {
         setList(json);
+        setFilteredList(json);
       });
   }, []);
 
@@ -31,6 +36,24 @@ function App() {
   const handleAddUser = (user) => {
     setList((prevState) => [user, ...prevState]);
     setShowForm(false);
+  };
+
+  const handleSearch = (searchTerm) => {
+    const filteredUsers = list.filter((user) => {
+      return (
+        user.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+        user.phone.toLowerCase().includes(searchTerm.toLowerCase())
+      );
+    });
+
+    if (filteredUsers.length === 0) {
+      setError("Ничего не найдено");
+    }
+
+    setFilteredList(filteredUsers);
   };
 
   return (
@@ -53,32 +76,25 @@ function App() {
           </button>
         </div>
         {showForm && <Form onAddItem={handleAddUser} />}
-        <div className="w-2/3 my-2 flex flex-row mb-4">
-          <input
-            className="appearance-none w-1/2 block mr-2 bg-blue-100 text-gray-700 border border-blue-500 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
-            id="grid-password"
-            type="text"
-            placeholder="Фильтр по таблице"
-          />
-
-          <button className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-500 rounded">
-            Найти
-          </button>
-        </div>
-        <Table>
-          <TableHead />
-          <TableBody>
-            {list.map((person, index) => {
-              return (
-                <Row
-                  key={person.id + index}
-                  {...person}
-                  onSelect={handleSelectUser}
-                />
-              );
-            })}
-          </TableBody>
-        </Table>
+        <Filter onSearch={handleSearch} />
+        {filteredList.length > 0 ? (
+          <Table>
+            <TableHead />
+            <TableBody>
+              {filteredList.map((person, index) => {
+                return (
+                  <Row
+                    key={`${person.id}${index}`}
+                    {...person}
+                    onSelect={handleSelectUser}
+                  />
+                );
+              })}
+            </TableBody>
+          </Table>
+        ) : (
+          <ErrorMessage text={error} />
+        )}
         {selectedUser && <InfoCard user={selectedUser} />}
       </div>
     </div>
