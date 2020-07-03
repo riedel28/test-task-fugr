@@ -5,7 +5,11 @@ const Row = ({ id, firstName, lastName, email, phone, onSelect }) => {
     onSelect({ id, firstName, lastName, email, phone });
   };
   return (
-    <tr key={id} onClick={onSelectItem}>
+    <tr
+      key={id}
+      onClick={onSelectItem}
+      className="hover:bg-blue-200 cursor-pointer"
+    >
       <td className="border px-4 py-2">{id}</td>
       <td className="border px-4 py-2">{firstName}</td>
       <td className="border px-4 py-2">{lastName}</td>
