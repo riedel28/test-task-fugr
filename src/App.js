@@ -3,33 +3,43 @@ import "./styles/main.css";
 import Table, { TableHead, TableBody } from "./components/Table";
 import Row from "./components/Row";
 
-import { url } from "./api";
+import { urlSmall, urlBig } from "./api";
 import Form from "./components/Form";
 import Filter from "./components/Filter";
 import InfoCard from "./components/InfoCard";
 import ErrorMessage from "./components/ErrorMessage";
 import Pagination from "./components/Pagination";
+import Switcher from "./components/Switcher";
 
 function App() {
   const [list, setList] = useState([]);
+  const [filteredList, setFilteredList] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
   const [showForm, setShowForm] = useState(false);
-  const [filteredList, setFilteredList] = useState([]);
+
   const [error, setError] = useState("");
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(10);
+  const [itemsPerPage, setItemsPerPage] = useState(50);
+  const [isLoading, setLoading] = useState(false);
+
+  const [showRows, setShowRows] = useState("less");
 
   useEffect(() => {
+    const url = showRows === "less" ? urlSmall : urlBig;
+
+    setLoading(true);
+
     fetch(url)
       .then((result) => {
         return result.json();
       })
       .then((json) => {
+        setLoading(false);
         setList(json);
         setFilteredList(json);
       });
-  }, []);
+  }, [showRows]);
 
   const handleSelectUser = (user) => {
     const foundUser = list.find(({ id }) => id === user.id);
@@ -38,7 +48,7 @@ function App() {
   };
 
   const handleAddUser = (user) => {
-    setList((prevState) => [user, ...prevState]);
+    setFilteredList((prevState) => [user, ...prevState]);
     setShowForm(false);
   };
 
@@ -76,14 +86,7 @@ function App() {
     <div className="min-h-screen bg-blue-100 ">
       <div className="container mx-auto flex items-center flex-col px-4 py-6">
         <div className="w-2/3 m-2 flex flex-row justify-between">
-          <div className="inline-flex">
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
-              Показать много
-            </button>
-            <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r">
-              Показать мало
-            </button>
-          </div>
+          <Switcher onSelect={setShowRows} />
           <button
             onClick={() => setShowForm(!showForm)}
             className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-500 rounded"
@@ -93,6 +96,7 @@ function App() {
         </div>
         {showForm && <Form onAddItem={handleAddUser} />}
         <Filter onSearch={handleSearch} />
+        {isLoading && "Загружаю..."}
         {filteredList.length > 0 ? (
           <Table>
             <TableHead />
