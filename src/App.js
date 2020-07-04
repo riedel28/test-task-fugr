@@ -74,16 +74,20 @@ function App() {
     setFilteredList(filteredUsers);
   };
 
+  const handleHideInfoCard = () => {
+    setSelectedUser(null);
+  };
+
+  const handlePaginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   const displayPostsPerPage = (itemsList, currentPage, itemsPerPage) => {
     const indexOfLastItem = currentPage * itemsPerPage;
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentPosts = itemsList.slice(indexOfFirstItem, indexOfLastItem);
 
     return currentPosts;
-  };
-
-  const handlePaginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
   };
 
   const displayTableRows = displayPostsPerPage(
@@ -116,7 +120,9 @@ function App() {
             <TableBody>{displayTableRows}</TableBody>
           </Table>
         )}
-        {selectedUser && <InfoCard user={selectedUser} />}
+        {selectedUser && (
+          <InfoCard user={selectedUser} onClose={handleHideInfoCard} />
+        )}
         <Pagination
           total={filteredList.length}
           itemsPerPage={itemsPerPage}
