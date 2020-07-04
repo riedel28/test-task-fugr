@@ -10,6 +10,8 @@ import InfoCard from "./components/InfoCard";
 import Pagination from "./components/Pagination";
 import Switcher from "./components/Switcher";
 import Button from "./components/Button";
+import Body from "./components/Body";
+import Container from "./components/Container";
 
 function App() {
   const [list, setList] = useState([]);
@@ -99,8 +101,8 @@ function App() {
   });
 
   return (
-    <div className="min-h-screen bg-blue-100 ">
-      <div className="container mx-auto flex items-center flex-col px-4 py-6">
+    <Body>
+      <Container>
         <div className="w-2/3 m-2 flex flex-row justify-between">
           <Switcher onSelect={setShowRows} />
           <Button>{!showForm ? "Добавить" : "Закрыть форму"}</Button>
@@ -121,8 +123,8 @@ function App() {
           currentPage={currentPage}
           onPageChange={handlePaginate}
         />
-      </div>
-    </div>
+      </Container>
+    </Body>
   );
 }
 
