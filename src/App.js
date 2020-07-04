@@ -1,13 +1,12 @@
 import React, { useState, useEffect } from "react";
 import "./styles/main.css";
-import Table, { TableHead, TableBody } from "./components/Table";
+import Table, { TableBody } from "./components/Table";
 import Row from "./components/Row";
 
 import { urlSmall, urlBig } from "./api";
 import Form from "./components/Form";
 import Filter from "./components/Filter";
 import InfoCard from "./components/InfoCard";
-import ErrorMessage from "./components/ErrorMessage";
 import Pagination from "./components/Pagination";
 import Switcher from "./components/Switcher";
 import Button from "./components/Button";
@@ -54,6 +53,8 @@ function App() {
   };
 
   const handleSearch = (searchTerm) => {
+    setError("");
+
     const filteredUsers = list.filter((user) => {
       return (
         user.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -83,6 +84,20 @@ function App() {
     setCurrentPage(pageNumber);
   };
 
+  const displayTableRows = displayPostsPerPage(
+    filteredList,
+    currentPage,
+    itemsPerPage
+  ).map((person, index) => {
+    return (
+      <Row
+        key={`${person.id}${index}`}
+        {...person}
+        onSelect={handleSelectUser}
+      />
+    );
+  });
+
   return (
     <div className="min-h-screen bg-blue-100 ">
       <div className="container mx-auto flex items-center flex-col px-4 py-6">
@@ -92,26 +107,12 @@ function App() {
         </div>
         {showForm && <Form onAddItem={handleAddUser} />}
         <Filter onSearch={handleSearch} />
-        {isLoading && "Загружаю..."}
-        {filteredList.length > 0 ? (
-          <Table>
-            <TableHead />
-            <TableBody>
-              {displayPostsPerPage(filteredList, currentPage, itemsPerPage).map(
-                (person, index) => {
-                  return (
-                    <Row
-                      key={`${person.id}${index}`}
-                      {...person}
-                      onSelect={handleSelectUser}
-                    />
-                  );
-                }
-              )}
-            </TableBody>
-          </Table>
+        {isLoading ? (
+          "Загружаю..."
         ) : (
-          <ErrorMessage text={error} />
+          <Table error={error}>
+            <TableBody>{displayTableRows}</TableBody>
+          </Table>
         )}
         {selectedUser && <InfoCard user={selectedUser} />}
         <Pagination

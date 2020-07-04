@@ -1,4 +1,5 @@
 import React from "react";
+import ErrorMessage from "./ErrorMessage";
 
 export const TableHead = () => {
   return (
@@ -18,8 +19,15 @@ export const TableBody = ({ children }) => {
   return <tbody>{children}</tbody>;
 };
 
-const Table = ({ children }) => {
-  return <table className="table-auto border w-2/3 mb-4">{children}</table>;
+const Table = ({ children, error }) => {
+  return !error ? (
+    <table className="table-auto border w-2/3 mb-4">
+      <TableHead />
+      {children}
+    </table>
+  ) : (
+    <ErrorMessage text={error} />
+  );
 };
 
 export default Table;
