@@ -10,6 +10,7 @@ import InfoCard from "./components/InfoCard";
 import ErrorMessage from "./components/ErrorMessage";
 import Pagination from "./components/Pagination";
 import Switcher from "./components/Switcher";
+import Button from "./components/Button";
 
 function App() {
   const [list, setList] = useState([]);
@@ -87,12 +88,7 @@ function App() {
       <div className="container mx-auto flex items-center flex-col px-4 py-6">
         <div className="w-2/3 m-2 flex flex-row justify-between">
           <Switcher onSelect={setShowRows} />
-          <button
-            onClick={() => setShowForm(!showForm)}
-            className="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-500 rounded"
-          >
-            {!showForm ? "Добавить" : "Закрыть форму"}
-          </button>
+          <Button>{!showForm ? "Добавить" : "Закрыть форму"}</Button>
         </div>
         {showForm && <Form onAddItem={handleAddUser} />}
         <Filter onSearch={handleSearch} />
