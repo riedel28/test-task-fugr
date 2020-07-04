@@ -9,7 +9,7 @@ export default function InfoCard({ user }) {
   } = user;
 
   return (
-    <div className="w-1/2 border px-4 py-4 rounded">
+    <div className="w-1/2 border px-4 py-4 rounded mb-4">
       <div className="mb-2">
         Выбран пользователь:{" "}
         <b>

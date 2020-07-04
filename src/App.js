@@ -8,6 +8,7 @@ import Form from "./components/Form";
 import Filter from "./components/Filter";
 import InfoCard from "./components/InfoCard";
 import ErrorMessage from "./components/ErrorMessage";
+import Pagination from "./components/Pagination";
 
 function App() {
   const [list, setList] = useState([]);
@@ -15,6 +16,9 @@ function App() {
   const [showForm, setShowForm] = useState(false);
   const [filteredList, setFilteredList] = useState([]);
   const [error, setError] = useState("");
+
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage, setItemsPerPage] = useState(10);
 
   useEffect(() => {
     fetch(url)
@@ -56,9 +60,21 @@ function App() {
     setFilteredList(filteredUsers);
   };
 
+  const displayPostsPerPage = (itemsList, currentPage, itemsPerPage) => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentPosts = itemsList.slice(indexOfFirstItem, indexOfLastItem);
+
+    return currentPosts;
+  };
+
+  const handlePaginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
   return (
     <div className="min-h-screen bg-blue-100 ">
-      <div className="container mx-auto flex justify-center items-center  flex-col p-4">
+      <div className="container mx-auto flex items-center flex-col px-4 py-6">
         <div className="w-2/3 m-2 flex flex-row justify-between">
           <div className="inline-flex">
             <button className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l">
@@ -81,21 +97,29 @@ function App() {
           <Table>
             <TableHead />
             <TableBody>
-              {filteredList.map((person, index) => {
-                return (
-                  <Row
-                    key={`${person.id}${index}`}
-                    {...person}
-                    onSelect={handleSelectUser}
-                  />
-                );
-              })}
+              {displayPostsPerPage(filteredList, currentPage, itemsPerPage).map(
+                (person, index) => {
+                  return (
+                    <Row
+                      key={`${person.id}${index}`}
+                      {...person}
+                      onSelect={handleSelectUser}
+                    />
+                  );
+                }
+              )}
             </TableBody>
           </Table>
         ) : (
           <ErrorMessage text={error} />
         )}
         {selectedUser && <InfoCard user={selectedUser} />}
+        <Pagination
+          total={filteredList.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={handlePaginate}
+        />
       </div>
     </div>
   );
