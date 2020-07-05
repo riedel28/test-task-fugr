@@ -26,10 +26,23 @@ function App() {
   const [isLoading, setLoading] = useState(false);
 
   const [showRows, setShowRows] = useState("less");
+  const url = showRows === "less" ? urlSmall : urlBig;
+
+  const [sortingDirection, setSortingDirection] = useState("");
+
+  const sortBy = (key) => {
+    const sortedList = filteredList.sort((a, b) => {
+      if (!isNaN(a[key]) && !isNaN(b[key])) {
+        return sortNumbers(a, b, key, sortingDirection);
+      }
+
+      return sortStrings(a, b, key, sortingDirection);
+    });
+
+    setFilteredList([...sortedList]);
+  };
 
   useEffect(() => {
-    const url = showRows === "less" ? urlSmall : urlBig;
-
     setLoading(true);
 
     fetch(url)
@@ -41,7 +54,7 @@ function App() {
         setList(json);
         setFilteredList(json);
       });
-  }, [showRows]);
+  }, [showRows, url]);
 
   const handleSelectUser = (user) => {
     const foundUser = list.find(({ id }) => id === user.id);
@@ -78,6 +91,16 @@ function App() {
     setSelectedUser(null);
   };
 
+  const sortNumbers = (a, b, key, direction) => {
+    return direction === "asc" ? a[key] - b[key] : b[key] - a[key];
+  };
+
+  const sortStrings = (a, b, key, direction) => {
+    return direction === "asc"
+      ? a[key].localeCompare(b[key])
+      : b[key].localeCompare(a[key]);
+  };
+
   const handlePaginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -109,14 +132,21 @@ function App() {
       <Container>
         <div className="w-2/3 m-2 flex flex-row justify-between">
           <Switcher onSelect={setShowRows} />
-          <Button>{!showForm ? "Добавить" : "Закрыть форму"}</Button>
+          <Button onClick={() => setShowForm(!showForm)}>
+            {!showForm ? "Добавить" : "Закрыть форму"}
+          </Button>
         </div>
         {showForm && <Form onAddItem={handleAddUser} />}
         <Filter onSearch={handleSearch} />
         {isLoading ? (
           "Загружаю..."
         ) : (
-          <Table error={error}>
+          <Table
+            onSort={sortBy}
+            sortingDirection={sortingDirection}
+            onChangeSortDirection={setSortingDirection}
+            error={error}
+          >
             <TableBody>{displayTableRows}</TableBody>
           </Table>
         )}

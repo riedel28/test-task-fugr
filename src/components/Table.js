@@ -1,15 +1,46 @@
-import React from "react";
+import React, { useState } from "react";
 import ErrorMessage from "./ErrorMessage";
+const headings = ["id", "firstName", "lastName", "email", "phone"];
 
-export const TableHead = () => {
+export const TableHead = ({
+  sortBy,
+  sortingDirection,
+  changeSortDirection,
+}) => {
+  const [selected, setSelected] = useState("");
+
+  const showSortingSymbol = (name) => {
+    if (!sortingDirection) {
+      return "--";
+    }
+
+    return sortingDirection === "desc" && selected === name ? (
+      <>&#9650;</>
+    ) : (
+      <>&#9660;</>
+    );
+  };
+
   return (
     <thead>
       <tr>
-        <th className="border px-4 py-2">Id</th>
-        <th className="border px-4 py-2">First Name</th>
-        <th className="border px-4 py-2">Last Name</th>
-        <th className="border px-4 py-2">Email</th>
-        <th className="border px-4 py-2">Phone</th>
+        {headings.map((name) => (
+          <th
+            key={name}
+            onClick={() => {
+              sortBy(name);
+              setSelected(name);
+              changeSortDirection((prevDirection) =>
+                prevDirection === "asc" ? "desc" : "asc"
+              );
+            }}
+            className="border px-4 py-2 hover:bg-gray-400 cursor-pointer"
+          >
+            <div>
+              {name} {showSortingSymbol(name)}
+            </div>
+          </th>
+        ))}
       </tr>
     </thead>
   );
@@ -19,10 +50,20 @@ export const TableBody = ({ children }) => {
   return <tbody>{children}</tbody>;
 };
 
-const Table = ({ children, error }) => {
+const Table = ({
+  children,
+  error,
+  onSort,
+  onChangeSortDirection,
+  sortingDirection,
+}) => {
   return !error ? (
     <table className="table-auto border w-2/3 mb-4">
-      <TableHead />
+      <TableHead
+        sortBy={onSort}
+        sortingDirection={sortingDirection}
+        changeSortDirection={onChangeSortDirection}
+      />
       {children}
     </table>
   ) : (
