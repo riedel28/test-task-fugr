@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import _ from 'lodash';
 import './styles/main.css';
 import Table, { TableBody } from './components/Table';
 import Row from './components/Row';
@@ -27,18 +28,15 @@ function App() {
 
   const [showRows, setShowRows] = useState('less');
 
-  const [sortingDirection, setSortingDirection] = useState('');
+  const [sortingDirection, setSortingDirection] = useState(null);
 
-  const sortBy = (key) => {
-    const sortedList = filteredList.sort((a, b) => {
-      if (!isNaN(a[key]) && !isNaN(b[key])) {
-        return sortNumbers(a, b, key, sortingDirection);
-      }
+  const sortBy = (key, direction) => {
+    const sortedList =
+      direction === 'asc'
+        ? _.sortBy(list, [key])
+        : _.sortBy(list, [key]).reverse();
 
-      return sortStrings(a, b, key, sortingDirection);
-    });
-
-    setFilteredList([...sortedList]);
+    setList(sortedList);
   };
 
   const fetchData = async (url) => {
@@ -98,16 +96,6 @@ function App() {
     setSelectedUser(null);
   };
 
-  const sortNumbers = (a, b, key, direction) => {
-    return direction === 'asc' ? a[key] - b[key] : b[key] - a[key];
-  };
-
-  const sortStrings = (a, b, key, direction) => {
-    return direction === 'asc'
-      ? a[key].localeCompare(b[key])
-      : b[key].localeCompare(a[key]);
-  };
-
   const handlePaginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
@@ -121,7 +109,7 @@ function App() {
   };
 
   const displayTableRows = displayPostsPerPage(
-    filteredList,
+    list,
     currentPage,
     itemsPerPage
   ).map((person, index) => {
@@ -160,12 +148,14 @@ function App() {
         {selectedUser && (
           <InfoCard user={selectedUser} onClose={handleHideInfoCard} />
         )}
-        <Pagination
-          total={filteredList.length}
-          itemsPerPage={itemsPerPage}
-          currentPage={currentPage}
-          onPageChange={handlePaginate}
-        />
+        {showRows === 'more' && (
+          <Pagination
+            total={filteredList.length}
+            itemsPerPage={itemsPerPage}
+            currentPage={currentPage}
+            onPageChange={handlePaginate}
+          />
+        )}
       </Container>
     </Body>
   );

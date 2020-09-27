@@ -1,20 +1,20 @@
-import React, { useState } from "react";
-import ErrorMessage from "./ErrorMessage";
-const headings = ["id", "firstName", "lastName", "email", "phone"];
+import React, { useState } from 'react';
+import ErrorMessage from './ErrorMessage';
+const headings = ['id', 'firstName', 'lastName', 'email', 'phone'];
 
 export const TableHead = ({
   sortBy,
   sortingDirection,
   changeSortDirection,
 }) => {
-  const [selected, setSelected] = useState("");
+  const [selected, setSelected] = useState('');
 
   const showSortingSymbol = (name) => {
     if (!sortingDirection) {
-      return "--";
+      return '--';
     }
 
-    return sortingDirection === "desc" && selected === name ? (
+    return sortingDirection === 'desc' && selected === name ? (
       <>&#9650;</>
     ) : (
       <>&#9660;</>
@@ -28,11 +28,11 @@ export const TableHead = ({
           <th
             key={name}
             onClick={() => {
-              sortBy(name);
-              setSelected(name);
+              sortBy(name, sortingDirection);
               changeSortDirection((prevDirection) =>
-                prevDirection === "asc" ? "desc" : "asc"
+                prevDirection === 'asc' ? 'desc' : 'asc'
               );
+              setSelected(name);
             }}
             className="border px-4 py-2 hover:bg-gray-400 cursor-pointer"
           >
