@@ -3,7 +3,7 @@ import './styles/main.css';
 import Table, { TableBody } from './components/Table';
 import Row from './components/Row';
 
-import { urlSmall, urlBig } from './api';
+import { getUrl } from './api';
 import Form from './components/Form';
 import Filter from './components/Filter';
 import InfoCard from './components/InfoCard';
@@ -26,7 +26,6 @@ function App() {
   const [isLoading, setLoading] = useState(false);
 
   const [showRows, setShowRows] = useState('less');
-  const url = showRows === 'less' ? urlSmall : urlBig;
 
   const [sortingDirection, setSortingDirection] = useState('');
 
@@ -50,18 +49,19 @@ function App() {
       const response = await fetch(url);
       const data = await response.json();
 
-      setLoading(false);
       setList(data);
       setFilteredList(data);
     } catch (error) {
       console.log(error.message);
       setError(error.message);
     }
+    setLoading(false);
   };
 
   useEffect(() => {
+    const url = getUrl(showRows);
     fetchData(url);
-  }, [url]);
+  }, [showRows]);
 
   const handleSelectUser = (user) => {
     const foundUser = list.find(({ id }) => id === user.id);
