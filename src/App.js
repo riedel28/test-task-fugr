@@ -1,18 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import _ from 'lodash';
-import './styles/main.css';
-import Table, { TableBody } from './components/Table';
-import Row from './components/Row';
 
-import { getUrl } from './api';
-import Form from './components/Form';
-import Filter from './components/Filter';
-import InfoCard from './components/InfoCard';
-import Pagination from './components/Pagination';
-import Switcher from './components/Switcher';
-import Button from './components/Button';
+import './styles/main.css';
+
 import Body from './components/Body';
 import Container from './components/Container';
+import Header from './components/Header';
+import Button from './components/Button';
+import Form from './components/Form';
+import Switcher from './components/Switcher';
+import Filter from './components/Filter';
+import Loader from './components/Loader';
+import Table, { TableBody } from './components/Table';
+import Row from './components/Row';
+import InfoCard from './components/InfoCard';
+import Pagination from './components/Pagination';
+
+import { getUrl } from './api';
 
 function App() {
   const [list, setList] = useState([]);
@@ -128,16 +132,16 @@ function App() {
   return (
     <Body>
       <Container>
-        <div className="w-2/3 m-2 flex flex-row justify-between">
+        <Header>
           <Switcher onSelect={setShowRows} />
           <Button onClick={() => setShowForm(!showForm)}>
             {!showForm ? 'Добавить' : 'Закрыть форму'}
           </Button>
-        </div>
+        </Header>
         {showForm && <Form onAddItem={handleAddUser} />}
         <Filter onSearch={handleSearch} />
         {isLoading ? (
-          'Загружаю...'
+          <Loader />
         ) : (
           <Table
             onSort={sortBy}
@@ -151,7 +155,7 @@ function App() {
         {selectedUser && (
           <InfoCard user={selectedUser} onClose={handleHideInfoCard} />
         )}
-        {showRows === 'more' && (
+        {showRows === 'more' && !isLoading && (
           <Pagination
             total={filteredList.length}
             itemsPerPage={itemsPerPage}
