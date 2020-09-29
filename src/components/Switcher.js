@@ -1,21 +1,25 @@
-import React from "react";
+import React from 'react';
 
-const Switcher = ({ onSelect }) => {
+const Switcher = ({ onSelect, rowsToShow }) => {
   return (
-    <div className="inline-flex">
+    <div className="inline-flex flex-1">
       <button
         onClick={() => {
-          onSelect("more");
+          onSelect('more');
         }}
-        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-l"
+        className={`${
+          rowsToShow === 'more' ? 'bg-gray-200' : 'bg-transparent'
+        } border border-gray-300 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-r-none rounded-l`}
       >
         Показать много
       </button>
       <button
         onClick={() => {
-          onSelect("less");
+          onSelect('less');
         }}
-        className="bg-gray-300 hover:bg-gray-400 text-gray-800 font-bold py-2 px-4 rounded-r"
+        className={`${
+          rowsToShow === 'less' ? 'bg-gray-200' : 'bg-transparent'
+        } border border-gray-300 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-l-none rounded-r`}
       >
         Показать мало
       </button>
@@ -24,3 +28,5 @@ const Switcher = ({ onSelect }) => {
 };
 
 export default Switcher;
+
+//bg-gray-300

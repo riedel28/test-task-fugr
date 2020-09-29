@@ -6,11 +6,10 @@ import './styles/main.css';
 import Body from './components/Body';
 import Container from './components/Container';
 import Header from './components/Header';
-import Button from './components/Button';
 import Form from './components/Form';
 import Switcher from './components/Switcher';
 import Filter from './components/Filter';
-import Loader from './components/Loader';
+import Spinner from './components/Spinner';
 import Table, { TableBody } from './components/Table';
 import Row from './components/Row';
 import InfoCard from './components/InfoCard';
@@ -22,7 +21,6 @@ function App() {
   const [list, setList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
-  const [showForm, setShowForm] = useState(false);
 
   const [error, setError] = useState(null);
 
@@ -75,7 +73,7 @@ function App() {
 
   const handleAddUser = (user) => {
     setFilteredList((prevState) => [user, ...prevState]);
-    setShowForm(false);
+    // setShowForm(false);
   };
 
   const handleSearch = (searchTerm) => {
@@ -133,15 +131,17 @@ function App() {
     <Body>
       <Container>
         <Header>
-          <Switcher onSelect={setShowRows} />
-          <Button onClick={() => setShowForm(!showForm)}>
-            {!showForm ? 'Добавить' : 'Закрыть форму'}
-          </Button>
+          <div className="mb-4">
+            <Form onAddItem={handleAddUser} />
+          </div>
+          <div className="flex mb-2">
+            <Switcher onSelect={setShowRows} rowsToShow={showRows} />
+            <Filter onSearch={handleSearch} />
+          </div>
         </Header>
-        {showForm && <Form onAddItem={handleAddUser} />}
-        <Filter onSearch={handleSearch} />
+
         {isLoading ? (
-          <Loader />
+          <Spinner />
         ) : (
           <Table
             onSort={sortBy}

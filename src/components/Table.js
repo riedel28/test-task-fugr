@@ -36,7 +36,7 @@ export const TableHead = ({
               );
               setSelected(name);
             }}
-            className="border px-4 py-2 hover:bg-gray-400 cursor-pointer"
+            className="border text-gray-800 font-bold px-4 py-2 hover:bg-gray-300 cursor-pointer"
           >
             {name}&nbsp;
             {showSortingSymbol(name)}
@@ -59,7 +59,7 @@ const Table = ({
   sortingDirection,
 }) => {
   return !error ? (
-    <table className="table-auto border w-2/3 mb-4">
+    <table className="table-auto w-auto border w-2/3 mb-4 rounded">
       <TableHead
         sortBy={onSort}
         sortingDirection={sortingDirection}

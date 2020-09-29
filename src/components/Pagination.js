@@ -1,12 +1,12 @@
-import React from "react";
+import React from 'react';
 
 const PaginationItem = ({ page, currentPage, paginate }) => {
-  const activeClass = currentPage === page ? `bg-blue-200` : ``;
+  const activeClass = currentPage === page ? `bg-gray-300` : ``;
 
   return (
     <a
       href={`!#`}
-      className={`px-4 py-2 border ${activeClass}`}
+      className={`px-4 py-2 border border-gray-300 ${activeClass}`}
       onClick={() => {
         paginate(page);
       }}
@@ -23,7 +23,7 @@ const Pagination = ({ total, itemsPerPage, currentPage, onPageChange }) => {
   const pageNumbers = range(1, pagesCount);
 
   return (
-    <nav className="w-2/3 flex flex-row justify-end rounded">
+    <nav className="flex flex-wrap w-2/3 rounded">
       {pageNumbers.map((pageNumber) => {
         return (
           <PaginationItem

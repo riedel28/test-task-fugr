@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react';
 
 export default function InfoCard({ user, onClose }) {
   const {
@@ -12,37 +12,53 @@ export default function InfoCard({ user, onClose }) {
     <div className="w-1/2 border px-4 py-4 rounded mb-4 flex">
       <div className="flex flex-col flex-1">
         <div className="mb-2">
-          Выбран пользователь:{" "}
-          <b>
+          <div className="uppercase font-semibold text-gray-800 text-sm">
+            Выбран пользователь:
+          </div>
+          <div className="text-xl py-2">
             {firstName}&nbsp;{lastName}
-          </b>
+          </div>
         </div>
         <div className="mb-2">
-          <p>Описание:</p>
+          <div className="uppercase font-semibold text-gray-800 text-sm">
+            Описание
+          </div>
           <textarea
             onChange={() => {}}
-            className="p-2 rounded border bg-blue-100 w-2/3"
+            className="w-2/3 text-gray-700 border border-gray-300 appearance-none w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 rounded"
             rows="8"
             value={description}
           />
         </div>
         <div className="mb-2">
-          Адрес проживания: <b>{streetAddress}</b>
+          <div className="uppercase font-semibold text-gray-800 text-sm">
+            Адрес проживания
+          </div>
+          <div>{streetAddress}</div>
         </div>
         <div className="mb-2">
-          Город: <b>{city}</b>
+          <div className="uppercase font-semibold text-gray-800 text-sm">
+            Город
+          </div>
+          <div>{city}</div>
         </div>
         <div className="mb-2">
-          Провинция/штат: <b>{state}</b>
+          <div className="uppercase font-semibold text-gray-800 text-sm">
+            Провинция/штат
+          </div>
+          <div>{state}</div>
         </div>
         <div className="mb-2">
-          Индекс: <b>{zip}</b>
+          <div className="uppercase font-semibold text-gray-800 text-sm">
+            Индекс
+          </div>
+          <div>{zip}</div>
         </div>
       </div>
       <div className="">
         <button
           onClick={onClose}
-          class="bg-transparent block ml-auto hover:bg-blue-500 text-blue-700 font-semibold hover:text-white py-2 px-4 border border-blue-500 hover:border-transparent rounded"
+          className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none"
         >
           Закрыть
         </button>
