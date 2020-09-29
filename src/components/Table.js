@@ -14,11 +14,13 @@ export const TableHead = ({
       return '--';
     }
 
-    return sortingDirection === 'desc' && selected === name ? (
-      <>&#9650;</>
-    ) : (
-      <>&#9660;</>
-    );
+    if (selected === name) {
+      return sortingDirection === 'desc' ? (
+        <span>&#8593;</span>
+      ) : (
+        <span>&#8595;</span>
+      );
+    }
   };
 
   return (
@@ -36,9 +38,8 @@ export const TableHead = ({
             }}
             className="border px-4 py-2 hover:bg-gray-400 cursor-pointer"
           >
-            <div>
-              {name} {showSortingSymbol(name)}
-            </div>
+            {name}&nbsp;
+            {showSortingSymbol(name)}
           </th>
         ))}
       </tr>

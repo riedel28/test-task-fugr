@@ -33,10 +33,10 @@ function App() {
   const sortBy = (key, direction) => {
     const sortedList =
       direction === 'asc'
-        ? _.sortBy(list, [key])
-        : _.sortBy(list, [key]).reverse();
+        ? _.sortBy(filteredList, [key])
+        : _.sortBy(filteredList, [key]).reverse();
 
-    setList(sortedList);
+    setFilteredList(sortedList);
   };
 
   const fetchData = async (url) => {
@@ -53,11 +53,13 @@ function App() {
       console.log(error.message);
       setError(error.message);
     }
+
     setLoading(false);
   };
 
   useEffect(() => {
     const url = getUrl(showRows);
+
     fetchData(url);
   }, [showRows]);
 
@@ -90,6 +92,7 @@ function App() {
     }
 
     setFilteredList(filteredUsers);
+    setSortingDirection(null);
   };
 
   const handleHideInfoCard = () => {
@@ -109,7 +112,7 @@ function App() {
   };
 
   const displayTableRows = displayPostsPerPage(
-    list,
+    filteredList,
     currentPage,
     itemsPerPage
   ).map((person, index) => {
