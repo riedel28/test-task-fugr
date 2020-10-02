@@ -9,7 +9,7 @@ import Header from './components/Header';
 import Form from './components/Form';
 import Switcher from './components/Switcher';
 import Filter from './components/Filter';
-import Spinner from './components/Spinner';
+import Preloader from './components/Preloader';
 import Table, { TableBody } from './components/Table';
 import Row from './components/Row';
 import InfoCard from './components/InfoCard';
@@ -31,6 +31,8 @@ function App() {
   const [showRows, setShowRows] = useState('less');
 
   const [sortingDirection, setSortingDirection] = useState(null);
+
+  // const [currentPosts, setCurrentPosts] = useState([]);
 
   const sortBy = (key, direction) => {
     const sortedList =
@@ -63,7 +65,17 @@ function App() {
     const url = getUrl(showRows);
 
     fetchData(url);
+    setSelectedUser(null);
   }, [showRows]);
+
+  useEffect(() => {
+    if (selectedUser) {
+      window.scroll({
+        top: document.body.scrollHeight,
+        behavior: 'smooth',
+      });
+    }
+  }, [selectedUser]);
 
   const handleSelectUser = (user) => {
     const foundUser = list.find(({ id }) => id === user.id);
@@ -73,11 +85,12 @@ function App() {
 
   const handleAddUser = (user) => {
     setFilteredList((prevState) => [user, ...prevState]);
-    // setShowForm(false);
   };
 
   const handleSearch = (searchTerm) => {
     setError(null);
+
+    console.log(searchTerm);
 
     const filteredUsers = list.filter((user) => {
       return (
@@ -110,14 +123,22 @@ function App() {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentPosts = itemsList.slice(indexOfFirstItem, indexOfLastItem);
 
+    console.log('indexOfFirstItem', indexOfFirstItem);
+    console.log('indexOfLastItem', indexOfLastItem);
+    console.log('currentPosts', currentPosts);
+
     return currentPosts;
   };
 
-  const displayTableRows = displayPostsPerPage(
-    filteredList,
-    currentPage,
-    itemsPerPage
-  ).map((person, index) => {
+  const currentPosts = displayPostsPerPage(list, currentPage, itemsPerPage);
+
+  // useEffect(() => {
+  //   setCurrentPosts(
+  //     displayPostsPerPage(filteredList, currentPage, itemsPerPage)
+  //   );
+  // }, [filteredList]);
+
+  const displayTableRows = currentPosts.map((person, index) => {
     return (
       <Row
         key={`${person.id}${index}`}
@@ -126,6 +147,10 @@ function App() {
       />
     );
   });
+
+  console.log('currentPosts', currentPosts);
+  console.log('filteredList', filteredList);
+  console.log(filteredList.length);
 
   return (
     <Body>
@@ -141,7 +166,7 @@ function App() {
         </Header>
 
         {isLoading ? (
-          <Spinner />
+          <Preloader />
         ) : (
           <Table
             onSort={sortBy}

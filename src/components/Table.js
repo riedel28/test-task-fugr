@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
 import ErrorMessage from './ErrorMessage';
+import { labels } from './Form';
+
 const headings = ['id', 'firstName', 'lastName', 'email', 'phone'];
 
 export const TableHead = ({
@@ -38,7 +40,7 @@ export const TableHead = ({
             }}
             className="border text-gray-800 font-bold px-4 py-2 hover:bg-gray-300 cursor-pointer"
           >
-            {name}&nbsp;
+            {labels[name]}&nbsp;
             {showSortingSymbol(name)}
           </th>
         ))}
@@ -59,7 +61,7 @@ const Table = ({
   sortingDirection,
 }) => {
   return !error ? (
-    <table className="table-auto w-auto border w-2/3 mb-4 rounded">
+    <table className="table-auto w-full border mb-4 rounded">
       <TableHead
         sortBy={onSort}
         sortingDirection={sortingDirection}

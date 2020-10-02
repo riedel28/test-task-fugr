@@ -5,7 +5,7 @@ const PaginationItem = ({ page, currentPage, paginate }) => {
 
   return (
     <a
-      href={`!#`}
+      href={`#`}
       className={`px-4 py-2 border border-gray-300 ${activeClass}`}
       onClick={() => {
         paginate(page);
@@ -23,7 +23,7 @@ const Pagination = ({ total, itemsPerPage, currentPage, onPageChange }) => {
   const pageNumbers = range(1, pagesCount);
 
   return (
-    <nav className="flex flex-wrap w-2/3 rounded">
+    <nav className="flex flex-wrap rounded">
       {pageNumbers.map((pageNumber) => {
         return (
           <PaginationItem

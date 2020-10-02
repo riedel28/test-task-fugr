@@ -25,7 +25,7 @@ export default function InfoCard({ user, onClose }) {
           </div>
           <textarea
             onChange={() => {}}
-            className="w-2/3 text-gray-700 border border-gray-300 appearance-none w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 rounded"
+            className="w-2/3 text-gray-700 border border-gray-300 appearance-none w-full py-2 px-2 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 rounded"
             rows="8"
             value={description}
           />

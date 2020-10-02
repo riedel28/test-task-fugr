@@ -6,7 +6,7 @@ const Spinner = () => {
     <div className="m-10">
       <Loader
         type="TailSpin"
-        color="#2d3748"
+        color="#667eea"
         height={50}
         width={50}
         timeout={3000}

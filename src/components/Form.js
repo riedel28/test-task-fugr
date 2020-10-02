@@ -2,6 +2,14 @@ import React, { useState } from 'react';
 
 import Button from './Button';
 
+export const labels = {
+  id: 'Id',
+  firstName: 'Имя',
+  lastName: 'Фамилия',
+  email: 'Электронная почта',
+  phone: 'Телефон',
+};
+
 const Form = ({ onAddItem }) => {
   const [showForm, setShowForm] = useState(false);
   const [formValues, setFormValues] = useState({
@@ -41,7 +49,7 @@ const Form = ({ onAddItem }) => {
                     class="block text-gray-800 font-semibold md:text-right mb-1 md:mb-0 pr-4"
                     for="inline-full-name"
                   >
-                    {field}
+                    {labels[field]}
                   </label>
                 </div>
                 <div class="md:w-2/3">
