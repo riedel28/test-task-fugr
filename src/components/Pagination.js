@@ -23,18 +23,20 @@ const Pagination = ({ total, itemsPerPage, currentPage, onPageChange }) => {
   const pageNumbers = range(1, pagesCount);
 
   return (
-    <nav className="flex flex-wrap rounded">
-      {pageNumbers.map((pageNumber) => {
-        return (
-          <PaginationItem
-            key={pageNumber}
-            page={pageNumber}
-            currentPage={currentPage}
-            paginate={onPageChange}
-          />
-        );
-      })}
-    </nav>
+    pageNumbers.length > 1 && (
+      <nav className="flex flex-wrap rounded">
+        {pageNumbers.map((pageNumber) => {
+          return (
+            <PaginationItem
+              key={pageNumber}
+              page={pageNumber}
+              currentPage={currentPage}
+              paginate={onPageChange}
+            />
+          );
+        })}
+      </nav>
+    )
   );
 };
 
