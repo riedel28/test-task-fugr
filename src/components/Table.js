@@ -38,7 +38,7 @@ export const TableHead = ({
               );
               setSelected(name);
             }}
-            className="border text-gray-800 font-bold px-4 py-2 hover:bg-gray-300 cursor-pointer"
+            className="border text-gray-800 font-semibold px-4 py-2 hover:bg-gray-300 cursor-pointer"
           >
             {labels[name]}&nbsp;
             {showSortingSymbol(name)}
