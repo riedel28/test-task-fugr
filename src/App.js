@@ -20,12 +20,13 @@ import { getUrl } from './api';
 function App() {
   const [list, setList] = useState([]);
   const [filteredList, setFilteredList] = useState([]);
+
   const [selectedUser, setSelectedUser] = useState(null);
 
   const [error, setError] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage, setItemsPerPage] = useState(50);
+  const [itemsPerPage] = useState(50);
   const [isLoading, setLoading] = useState(false);
 
   const [showRows, setShowRows] = useState('less');
@@ -123,7 +124,10 @@ function App() {
     return currentPosts;
   };
 
-  const currentPosts = displayPostsPerPage(list, currentPage, itemsPerPage);
+  const currentPosts =
+    filteredList.length < itemsPerPage
+      ? filteredList
+      : displayPostsPerPage(list, currentPage, itemsPerPage);
 
   return (
     <Body>
@@ -142,12 +146,11 @@ function App() {
 
         {!error && !isLoading ? (
           <Table
+            data={currentPosts}
             onSort={sortBy}
             sortingDirection={sortingDirection}
             onChangeSortDirection={setSortingDirection}
             onSelectRow={handleSelectUser}
-            data={filteredList}
-            error={error}
           />
         ) : (
           <ErrorMessage text={error} />

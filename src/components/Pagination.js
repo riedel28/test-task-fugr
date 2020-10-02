@@ -4,7 +4,7 @@ const PaginationItem = ({ page, currentPage, paginate }) => {
   const activeClass = currentPage === page ? `bg-gray-300` : ``;
 
   return (
-    <a
+    <button
       href={`#`}
       className={`px-4 py-2 border border-gray-300 ${activeClass}`}
       onClick={() => {
@@ -12,7 +12,7 @@ const PaginationItem = ({ page, currentPage, paginate }) => {
       }}
     >
       {page}
-    </a>
+    </button>
   );
 };
 
