@@ -10,8 +10,8 @@ import Form from './components/Form';
 import Switcher from './components/Switcher';
 import Filter from './components/Filter';
 import Preloader from './components/Preloader';
-import Table, { TableBody } from './components/Table';
-import Row from './components/Row';
+import Table from './components/Table';
+import ErrorMessage from './components/ErrorMessage';
 import InfoCard from './components/InfoCard';
 import Pagination from './components/Pagination';
 
@@ -31,8 +31,6 @@ function App() {
   const [showRows, setShowRows] = useState('less');
 
   const [sortingDirection, setSortingDirection] = useState(null);
-
-  // const [currentPosts, setCurrentPosts] = useState([]);
 
   const sortBy = (key, direction) => {
     const sortedList =
@@ -89,8 +87,7 @@ function App() {
 
   const handleSearch = (searchTerm) => {
     setError(null);
-
-    console.log(searchTerm);
+    setSelectedUser(null);
 
     const filteredUsers = list.filter((user) => {
       return (
@@ -103,7 +100,7 @@ function App() {
     });
 
     if (filteredUsers.length === 0) {
-      setError('Ничего не найдено');
+      setError('Ничего не найдено. Попробуйте повторить поиск');
     }
 
     setFilteredList(filteredUsers);
@@ -123,34 +120,10 @@ function App() {
     const indexOfFirstItem = indexOfLastItem - itemsPerPage;
     const currentPosts = itemsList.slice(indexOfFirstItem, indexOfLastItem);
 
-    console.log('indexOfFirstItem', indexOfFirstItem);
-    console.log('indexOfLastItem', indexOfLastItem);
-    console.log('currentPosts', currentPosts);
-
     return currentPosts;
   };
 
   const currentPosts = displayPostsPerPage(list, currentPage, itemsPerPage);
-
-  // useEffect(() => {
-  //   setCurrentPosts(
-  //     displayPostsPerPage(filteredList, currentPage, itemsPerPage)
-  //   );
-  // }, [filteredList]);
-
-  const displayTableRows = currentPosts.map((person, index) => {
-    return (
-      <Row
-        key={`${person.id}${index}`}
-        {...person}
-        onSelect={handleSelectUser}
-      />
-    );
-  });
-
-  console.log('currentPosts', currentPosts);
-  console.log('filteredList', filteredList);
-  console.log(filteredList.length);
 
   return (
     <Body>
@@ -165,21 +138,25 @@ function App() {
           </div>
         </Header>
 
-        {isLoading ? (
-          <Preloader />
-        ) : (
+        {isLoading && <Preloader />}
+
+        {!error && !isLoading ? (
           <Table
             onSort={sortBy}
             sortingDirection={sortingDirection}
             onChangeSortDirection={setSortingDirection}
+            onSelectRow={handleSelectUser}
+            data={filteredList}
             error={error}
-          >
-            <TableBody>{displayTableRows}</TableBody>
-          </Table>
+          />
+        ) : (
+          <ErrorMessage text={error} />
         )}
+
         {selectedUser && (
           <InfoCard user={selectedUser} onClose={handleHideInfoCard} />
         )}
+
         {showRows === 'more' && !isLoading && (
           <Pagination
             total={filteredList.length}

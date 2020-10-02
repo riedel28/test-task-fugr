@@ -1,14 +1,10 @@
 import React, { useState } from 'react';
-import ErrorMessage from './ErrorMessage';
+
 import { labels } from './Form';
 
 const headings = ['id', 'firstName', 'lastName', 'email', 'phone'];
 
-export const TableHead = ({
-  sortBy,
-  sortingDirection,
-  changeSortDirection,
-}) => {
+const TableHead = ({ sortBy, sortingDirection, changeSortDirection }) => {
   const [selected, setSelected] = useState('');
 
   const showSortingSymbol = (name) => {
@@ -49,28 +45,48 @@ export const TableHead = ({
   );
 };
 
-export const TableBody = ({ children }) => {
-  return <tbody>{children}</tbody>;
+const Row = ({ id, firstName, lastName, email, phone, onSelectRow }) => {
+  const onSelectItem = () => {
+    onSelectRow({ id, firstName, lastName, email, phone });
+  };
+
+  return (
+    <tr onClick={onSelectItem} className="hover:bg-gray-300 cursor-pointer">
+      <td className="border px-4 py-2">{id}</td>
+      <td className="border px-4 py-2">{firstName}</td>
+      <td className="border px-4 py-2">{lastName}</td>
+      <td className="border px-4 py-2">{email.toLowerCase()}</td>
+      <td className="border px-4 py-2">{phone}</td>
+    </tr>
+  );
+};
+
+const TableBody = ({ data, onSelectRow }) => {
+  const displayTableRows = data.map((person, index) => {
+    return (
+      <Row key={`${person.id}${index}`} {...person} onSelectRow={onSelectRow} />
+    );
+  });
+
+  return <tbody>{displayTableRows}</tbody>;
 };
 
 const Table = ({
-  children,
-  error,
+  data,
   onSort,
   onChangeSortDirection,
   sortingDirection,
+  onSelectRow,
 }) => {
-  return !error ? (
+  return (
     <table className="table-auto w-full border mb-4 rounded">
       <TableHead
         sortBy={onSort}
         sortingDirection={sortingDirection}
         changeSortDirection={onChangeSortDirection}
       />
-      {children}
+      <TableBody data={data} onSelectRow={onSelectRow} />
     </table>
-  ) : (
-    <ErrorMessage text={error} />
   );
 };
 
