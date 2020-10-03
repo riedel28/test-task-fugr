@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import _ from 'lodash';
+import sortBy from 'lodash.sortby';
 
 import './styles/main.css';
 
@@ -33,11 +33,11 @@ function App() {
 
   const [sortingDirection, setSortingDirection] = useState(null);
 
-  const sortBy = (key, direction) => {
+  const handleSort = (key, direction) => {
     const sortedList =
       direction === 'asc'
-        ? _.sortBy(filteredList, [key])
-        : _.sortBy(filteredList, [key]).reverse();
+        ? sortBy(filteredList, [key])
+        : sortBy(filteredList, [key]).reverse();
 
     setFilteredList(sortedList);
   };
@@ -147,7 +147,7 @@ function App() {
         {!error && !isLoading ? (
           <Table
             data={currentPosts}
-            onSort={sortBy}
+            onSort={handleSort}
             sortingDirection={sortingDirection}
             onChangeSortDirection={setSortingDirection}
             onSelectRow={handleSelectUser}
