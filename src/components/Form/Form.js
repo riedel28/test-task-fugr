@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
-import Button from './Button';
-import { isObjEmpty, isEmailValid } from '../helpers';
+import Button from '../Button';
+import { isObjEmpty, isEmailValid } from '../../helpers';
 
 export const labels = {
   id: 'Id',
@@ -87,6 +87,7 @@ const Form = ({ onAddItem }) => {
             className="w-full max-w-sm m-4 flex flex-col items-center"
             onSubmit={handleSubmit}
             noValidate
+            data-testid="form"
           >
             {Object.keys(formValues).map((field) => (
               <div className="w-2/3" key={field}>
@@ -108,6 +109,7 @@ const Form = ({ onAddItem }) => {
                       name={field}
                       value={formValues[field]}
                       onChange={handleChange}
+                      data-testid={`input-${field}`}
                     />
                     {errors[field] && (
                       <span className=" text-pink-700 text-sm">
@@ -122,6 +124,7 @@ const Form = ({ onAddItem }) => {
               <button
                 className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold focus:outline-none py-2 px-4 rounded"
                 type="submit"
+                data-testid="add-user-button"
               >
                 Добавить пользователя
               </button>

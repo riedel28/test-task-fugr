@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { labels } from './Form';
+import { labels } from './Form/Form';
 
 const headings = ['id', 'firstName', 'lastName', 'email', 'phone'];
 
