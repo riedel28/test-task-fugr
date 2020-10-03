@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 
 import Button from './Button';
+import { isObjEmpty, isEmailValid } from '../helpers';
 
 export const labels = {
   id: 'Id',
@@ -12,13 +13,41 @@ export const labels = {
 
 const Form = ({ onAddItem }) => {
   const [showForm, setShowForm] = useState(false);
-  const [formValues, setFormValues] = useState({
+  const initialState = {
     id: '',
     firstName: '',
     lastName: '',
     email: '',
     phone: '',
-  });
+  };
+  const [formValues, setFormValues] = useState(initialState);
+  const [errors, setErrors] = useState({});
+
+  const validate = (values) => {
+    const errors = {};
+
+    if (!values.id) {
+      errors.id = 'Введите id';
+    } else if (values.id < 0) {
+      errors.id = 'Id не должен быть отрицательным числом';
+    }
+
+    if (!values.firstName) {
+      errors.firstName = 'Введите имя';
+    }
+
+    if (!values.lastName) {
+      errors.lastName = 'Введите фамилию';
+    }
+
+    if (!values.email) {
+      errors.email = 'Введите электронную почту';
+    } else if (!isEmailValid(values.email)) {
+      errors.email = 'Введите валидный email';
+    }
+
+    return errors;
+  };
 
   const handleChange = (e) => {
     setFormValues({
@@ -29,51 +58,73 @@ const Form = ({ onAddItem }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    onAddItem(formValues);
+
+    const errors = validate(formValues);
+    setErrors(errors);
+
+    if (isObjEmpty(errors)) {
+      onAddItem(formValues);
+      setFormValues(initialState);
+      setShowForm(false);
+    }
   };
 
   return (
     <div>
-      <div className="">
-        <Button onClick={() => setShowForm(!showForm)}>
+      <div>
+        <Button
+          onClick={() => {
+            setShowForm(!showForm);
+            setErrors({});
+          }}
+        >
           {!showForm ? 'Добавить в таблицу' : 'Закрыть форму'}
         </Button>
       </div>
       <div className="flex justify-center">
         {showForm && (
-          <form class="w-full max-w-sm m-4" onSubmit={handleSubmit}>
+          <form
+            className="w-full max-w-sm m-4 flex flex-col items-center"
+            onSubmit={handleSubmit}
+            noValidate
+          >
             {Object.keys(formValues).map((field) => (
-              <div class="md:flex md:items-center mb-6">
-                <div class="md:w-1/3">
-                  <label
-                    class="block text-gray-800 font-semibold md:text-right mb-1 md:mb-0 pr-4"
-                    for="inline-full-name"
-                  >
-                    {labels[field]}
-                  </label>
-                </div>
-                <div class="md:w-2/3">
-                  <input
-                    class="text-gray-700 border border-gray-300 appearance-none w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 rounded"
-                    id="inline-full-name"
-                    type="text"
-                    name={field}
-                    value={formValues[field]}
-                    onChange={handleChange}
-                  />
+              <div className="w-2/3" key={field}>
+                <div className="mb-4 flex flex-col">
+                  <div className="">
+                    <label
+                      className="block uppercase text-xs text-gray-800 font-bold mb-1"
+                      htmlFor={field}
+                    >
+                      {labels[field]}
+                    </label>
+                  </div>
+
+                  <div>
+                    <input
+                      className="text-gray-700 border border-gray-300 appearance-none w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 rounded"
+                      id={field}
+                      type={field === 'email' ? 'email' : 'text'}
+                      name={field}
+                      value={formValues[field]}
+                      onChange={handleChange}
+                    />
+                    {errors[field] && (
+                      <span className=" text-pink-700 text-sm">
+                        {errors[field]}
+                      </span>
+                    )}
+                  </div>
                 </div>
               </div>
             ))}
-            <div class="md:flex md:items-center">
-              <div class="md:w-1/3"></div>
-              <div class="md:w-2/3">
-                <button
-                  class="bg-indigo-500 hover:bg-indigo-700 text-white font-bold focus:outline-none py-2 px-4 rounded"
-                  type="submit"
-                >
-                  Добавить пользователя
-                </button>
-              </div>
+            <div className="md:flex md:items-center">
+              <button
+                className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold focus:outline-none py-2 px-4 rounded"
+                type="submit"
+              >
+                Добавить пользователя
+              </button>
             </div>
           </form>
         )}

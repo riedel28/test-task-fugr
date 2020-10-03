@@ -4,6 +4,7 @@ const Row = ({ id, firstName, lastName, email, phone, onSelect }) => {
   const onSelectItem = () => {
     onSelect({ id, firstName, lastName, email, phone });
   };
+
   return (
     <tr onClick={onSelectItem} className="hover:bg-gray-300 cursor-pointer">
       <td className="border px-4 py-2">{id}</td>

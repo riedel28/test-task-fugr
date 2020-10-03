@@ -12,7 +12,7 @@ export default function InfoCard({ user, onClose }) {
     <div className="w-1/2 border px-4 py-4 rounded mb-4 flex">
       <div className="flex flex-col flex-1">
         <div className="mb-2">
-          <div className="uppercase font-semibold text-gray-800 text-sm">
+          <div className="uppercase font-bold text-gray-800 text-sm">
             Выбран пользователь:
           </div>
           <div className="text-xl py-2">
@@ -20,7 +20,7 @@ export default function InfoCard({ user, onClose }) {
           </div>
         </div>
         <div className="mb-2">
-          <div className="uppercase font-semibold text-gray-800 text-sm">
+          <div className="uppercase font-bold text-gray-800 text-sm">
             Описание
           </div>
           <textarea
@@ -31,25 +31,23 @@ export default function InfoCard({ user, onClose }) {
           />
         </div>
         <div className="mb-2">
-          <div className="uppercase font-semibold text-gray-800 text-sm">
+          <div className="uppercase font-bold text-gray-800 text-sm">
             Адрес проживания
           </div>
           <div>{streetAddress}</div>
         </div>
         <div className="mb-2">
-          <div className="uppercase font-semibold text-gray-800 text-sm">
-            Город
-          </div>
+          <div className="uppercase font-bold text-gray-800 text-sm">Город</div>
           <div>{city}</div>
         </div>
         <div className="mb-2">
-          <div className="uppercase font-semibold text-gray-800 text-sm">
+          <div className="uppercase font-bold text-gray-800 text-sm">
             Провинция/штат
           </div>
           <div>{state}</div>
         </div>
         <div className="mb-2">
-          <div className="uppercase font-semibold text-gray-800 text-sm">
+          <div className="uppercase font-bold text-gray-800 text-sm">
             Индекс
           </div>
           <div>{zip}</div>
