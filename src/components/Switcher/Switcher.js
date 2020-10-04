@@ -2,7 +2,7 @@ import React from 'react';
 
 const Switcher = ({ onSelect, rowsToShow }) => {
   return (
-    <div className="inline-flex flex-1">
+    <div className="inline-flex flex-1" data-testid="switcher">
       <button
         onClick={() => {
           onSelect('more');

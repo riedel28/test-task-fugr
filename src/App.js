@@ -7,7 +7,7 @@ import Body from './components/Body';
 import Container from './components/Container';
 import Header from './components/Header';
 import Form from './components/Form/Form';
-import Switcher from './components/Switcher';
+import Switcher from './components/Switcher/Switcher';
 import Filter from './components/Filter';
 import Preloader from './components/Preloader';
 import Table from './components/Table/Table';
