@@ -10,7 +10,11 @@ const Filter = ({ onSearch }) => {
   };
 
   return (
-    <form className="flex-1 flex flex-row ml-auto" onSubmit={handleSubmit}>
+    <form
+      className="flex-1 flex flex-row ml-auto"
+      onSubmit={handleSubmit}
+      data-testid="filter"
+    >
       <input
         className="appearance-none block flex-1 mr-2 text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         id="grid-password"
@@ -20,6 +24,7 @@ const Filter = ({ onSearch }) => {
         onChange={(e) => {
           setSearchTerm(e.target.value);
         }}
+        data-testid="filter-input"
       />
 
       <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
