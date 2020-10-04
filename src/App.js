@@ -10,7 +10,7 @@ import Form from './components/Form/Form';
 import Switcher from './components/Switcher';
 import Filter from './components/Filter';
 import Preloader from './components/Preloader';
-import Table from './components/Table';
+import Table from './components/Table/Table';
 import ErrorMessage from './components/ErrorMessage';
 import InfoCard from './components/InfoCard';
 import Pagination from './components/Pagination';

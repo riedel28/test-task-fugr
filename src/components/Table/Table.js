@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-import { labels } from './Form/Form';
+import { labels } from '../Form/Form';
 
 const headings = ['id', 'firstName', 'lastName', 'email', 'phone'];
 
@@ -35,6 +35,7 @@ const TableHead = ({ sortBy, sortingDirection, changeSortDirection }) => {
               setSelected(name);
             }}
             className="border text-gray-800 font-semibold px-4 py-2 hover:bg-gray-300 cursor-pointer"
+            data-testid={`table-head-${name}`}
           >
             {labels[name]}&nbsp;
             {showSortingSymbol(name)}
@@ -68,7 +69,7 @@ const TableBody = ({ data, onSelectRow }) => {
     );
   });
 
-  return <tbody>{displayTableRows}</tbody>;
+  return <tbody data-testid="table-body">{displayTableRows}</tbody>;
 };
 
 const Table = ({
@@ -79,7 +80,10 @@ const Table = ({
   onSelectRow,
 }) => {
   return (
-    <table className="table-auto w-full border mb-4 rounded">
+    <table
+      className="table-auto w-full border mb-4 rounded"
+      data-testid="table"
+    >
       <TableHead
         sortBy={onSort}
         sortingDirection={sortingDirection}
