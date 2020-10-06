@@ -3,7 +3,7 @@ import Loader from 'react-loader-spinner';
 
 const Spinner = () => {
   return (
-    <div className="m-10">
+    <div className="m-10" data-testid="preloader">
       <Loader
         type="TailSpin"
         color="#667eea"

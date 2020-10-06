@@ -3,17 +3,17 @@ import sortBy from 'lodash.sortby';
 
 import './styles/main.css';
 
-import Body from './components/Body';
-import Container from './components/Container';
-import Header from './components/Header';
+import Body from './components/Body/Body';
+import Container from './components/Container/Container';
+import Header from './components/Header/Header';
 import Form from './components/Form/Form';
 import Switcher from './components/Switcher/Switcher';
 import Filter from './components/Filter/Filter';
-import Preloader from './components/Preloader';
+import Preloader from './components/Preloader/Preloader';
 import Table from './components/Table/Table';
-import ErrorMessage from './components/ErrorMessage';
-import InfoCard from './components/InfoCard';
-import Pagination from './components/Pagination';
+import ErrorMessage from './components/ErrorMessage/ErrorMessage';
+import InfoCard from './components/InfoCard/InfoCard';
+import Pagination from './components/Pagination/Pagination';
 
 import { getUrl } from './api';
 

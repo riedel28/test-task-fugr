@@ -46,7 +46,7 @@ const TableHead = ({ sortBy, sortingDirection, changeSortDirection }) => {
   );
 };
 
-const Row = ({ id, firstName, lastName, email, phone, onSelectRow }) => {
+const TableRow = ({ id, firstName, lastName, email, phone, onSelectRow }) => {
   const onSelectItem = () => {
     onSelectRow({ id, firstName, lastName, email, phone });
   };
@@ -65,7 +65,11 @@ const Row = ({ id, firstName, lastName, email, phone, onSelectRow }) => {
 const TableBody = ({ data, onSelectRow }) => {
   const displayTableRows = data.map((person, index) => {
     return (
-      <Row key={`${person.id}${index}`} {...person} onSelectRow={onSelectRow} />
+      <TableRow
+        key={`${person.id}${index}`}
+        {...person}
+        onSelectRow={onSelectRow}
+      />
     );
   });
 

@@ -24,7 +24,7 @@ const Pagination = ({ total, itemsPerPage, currentPage, onPageChange }) => {
 
   return (
     pageNumbers.length > 1 && (
-      <nav className="flex flex-wrap rounded">
+      <nav className="flex flex-wrap rounded" data-testid="pagination">
         {pageNumbers.map((pageNumber) => {
           return (
             <PaginationItem
