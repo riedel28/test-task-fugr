@@ -16,6 +16,7 @@ import InfoCard from './components/InfoCard/InfoCard';
 import Pagination from './components/Pagination/Pagination';
 
 import { getUrl } from './api';
+import useFetchData from './hooks/useFetchData';
 
 function App() {
   const [list, setList] = useState([]);
@@ -23,49 +24,18 @@ function App() {
 
   const [selectedUser, setSelectedUser] = useState(null);
 
-  const [error, setError] = useState(null);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(50);
-  const [isLoading, setLoading] = useState(false);
-
   const [showRows, setShowRows] = useState('less');
 
   const [sortingDirection, setSortingDirection] = useState(null);
+  const [{ data, isLoading, error }, setError] = useFetchData(getUrl(showRows));
 
-  const handleSort = (key, direction) => {
-    const sortedList =
-      direction === 'asc'
-        ? sortBy(filteredList, [key])
-        : sortBy(filteredList, [key]).reverse();
-
-    setFilteredList(sortedList);
-  };
-
-  const fetchData = async (url) => {
-    setError(null);
-    setLoading(true);
-
-    try {
-      const response = await fetch(url);
-      const data = await response.json();
-
-      setList(data);
-      setFilteredList(data);
-    } catch (error) {
-      console.log(error.message);
-      setError(error.message);
-    }
-
-    setLoading(false);
-  };
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(50);
 
   useEffect(() => {
-    const url = getUrl(showRows);
-
-    fetchData(url);
-    setSelectedUser(null);
-  }, [showRows]);
+    setList(data);
+    setFilteredList(data);
+  }, [data]);
 
   useEffect(() => {
     if (selectedUser) {
@@ -75,6 +45,15 @@ function App() {
       });
     }
   }, [selectedUser]);
+
+  const handleSort = (key, direction) => {
+    const sortedList =
+      direction === 'asc'
+        ? sortBy(filteredList, [key])
+        : sortBy(filteredList, [key]).reverse();
+
+    setFilteredList(sortedList);
+  };
 
   const handleSelectUser = (user) => {
     const foundUser = list.find(({ id }) => id === user.id);
