@@ -35,7 +35,7 @@ function App() {
   useEffect(() => {
     setList(data);
     setFilteredList(data);
-  }, [data]);
+  }, [data, showRows]);
 
   useEffect(() => {
     if (selectedUser) {
@@ -106,7 +106,7 @@ function App() {
   const currentPosts =
     filteredList.length < itemsPerPage
       ? filteredList
-      : displayPostsPerPage(list, currentPage, itemsPerPage);
+      : displayPostsPerPage(filteredList, currentPage, itemsPerPage);
 
   return (
     <Body>
