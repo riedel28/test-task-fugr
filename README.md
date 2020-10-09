@@ -11,6 +11,13 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 The page will reload if you make edits.<br />
 You will also see any lint errors in the console.
+`docker build -t test-task-fugr:dev .`
+
+`docker run -it --rm -v ${PWD}:/app -v /app/node_modules -p 3001:3000 -e CHOKIDAR_USEPOLLING=true test-task-fugr:dev`
+
+`docker-compose up -d --build`
+
+`docker-compose stop`
 
 ### `yarn test`
 
