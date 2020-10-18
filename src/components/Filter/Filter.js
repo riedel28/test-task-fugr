@@ -1,22 +1,22 @@
 import React, { useState } from 'react';
 
-const Filter = ({ onSearch }) => {
+const Filter = ({ onFilter }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    onSearch(searchTerm);
+    onFilter(searchTerm);
   };
 
   return (
     <form
-      className="flex-1 flex flex-row ml-auto"
+      className="flex flex-row flex-1 justify-end"
       onSubmit={handleSubmit}
       data-testid="filter"
     >
       <input
-        className="appearance-none block flex-1 mr-2 text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+        className="appearance-none w-1/2 block mr-2 text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
         id="grid-password"
         type="text"
         placeholder="Фильтр по таблице"

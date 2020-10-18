@@ -2,7 +2,7 @@ import React from 'react';
 
 const Switcher = ({ onSelect, rowsToShow }) => {
   return (
-    <div className="inline-flex flex-1" data-testid="switcher">
+    <div className="" data-testid="switcher">
       <button
         onClick={() => {
           onSelect('more');
@@ -28,5 +28,3 @@ const Switcher = ({ onSelect, rowsToShow }) => {
 };
 
 export default Switcher;
-
-//bg-gray-300

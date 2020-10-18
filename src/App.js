@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import sortBy from 'lodash.sortby';
 
 import './styles/main.css';
 
@@ -7,106 +6,25 @@ import Body from './components/Body/Body';
 import Container from './components/Container/Container';
 import Header from './components/Header/Header';
 import Form from './components/Form/Form';
-import Switcher from './components/Switcher/Switcher';
-import Filter from './components/Filter/Filter';
 import Preloader from './components/Preloader/Preloader';
 import Table from './components/Table/Table';
-import ErrorMessage from './components/ErrorMessage/ErrorMessage';
-import InfoCard from './components/InfoCard/InfoCard';
-import Pagination from './components/Pagination/Pagination';
 
 import { getUrl } from './api';
 import useFetchData from './hooks/useFetchData';
 
 function App() {
   const [list, setList] = useState([]);
-  const [filteredList, setFilteredList] = useState([]);
-
-  const [selectedUser, setSelectedUser] = useState(null);
-
   const [showRows, setShowRows] = useState('less');
 
-  const [sortingDirection, setSortingDirection] = useState(null);
-  const [{ data, isLoading, error }, setError] = useFetchData(getUrl(showRows));
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(50);
+  const [{ data, isLoading, error }] = useFetchData(getUrl(showRows));
 
   useEffect(() => {
     setList(data);
-    setFilteredList(data);
   }, [data, showRows]);
 
-  useEffect(() => {
-    if (selectedUser) {
-      window.scroll({
-        top: document.body.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
-  }, [selectedUser]);
-
-  const handleSort = (key, direction) => {
-    const sortedList =
-      direction === 'asc'
-        ? sortBy(filteredList, [key])
-        : sortBy(filteredList, [key]).reverse();
-
-    setFilteredList(sortedList);
-  };
-
-  const handleSelectUser = (user) => {
-    const foundUser = list.find(({ id }) => id === user.id);
-
-    setSelectedUser(foundUser);
-  };
-
   const handleAddUser = (user) => {
-    setFilteredList((prevState) => [user, ...prevState]);
+    setList((prevState) => [user, ...prevState]);
   };
-
-  const handleSearch = (searchTerm) => {
-    setError(null);
-    setSelectedUser(null);
-
-    const filteredUsers = list.filter((user) => {
-      return (
-        user.id.toString().toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.firstName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.lastName.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        user.phone.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    });
-
-    if (filteredUsers.length === 0) {
-      setError('Ничего не найдено. Попробуйте повторить поиск');
-    }
-
-    setFilteredList(filteredUsers);
-    setSortingDirection(null);
-  };
-
-  const handleHideInfoCard = () => {
-    setSelectedUser(null);
-  };
-
-  const handlePaginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const displayPostsPerPage = (itemsList, currentPage, itemsPerPage) => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentPosts = itemsList.slice(indexOfFirstItem, indexOfLastItem);
-
-    return currentPosts;
-  };
-
-  const currentPosts =
-    filteredList.length < itemsPerPage
-      ? filteredList
-      : displayPostsPerPage(filteredList, currentPage, itemsPerPage);
 
   return (
     <Body>
@@ -115,36 +33,16 @@ function App() {
           <div className="mb-4">
             <Form onAddItem={handleAddUser} />
           </div>
-          <div className="flex mb-2">
-            <Switcher onSelect={setShowRows} rowsToShow={showRows} />
-            <Filter onSearch={handleSearch} />
-          </div>
         </Header>
 
-        {isLoading && <Preloader />}
-
-        {!error && !isLoading ? (
-          <Table
-            data={currentPosts}
-            onSort={handleSort}
-            sortingDirection={sortingDirection}
-            onChangeSortDirection={setSortingDirection}
-            onSelectRow={handleSelectUser}
-          />
+        {isLoading ? (
+          <Preloader />
         ) : (
-          <ErrorMessage text={error} />
-        )}
-
-        {selectedUser && (
-          <InfoCard user={selectedUser} onClose={handleHideInfoCard} />
-        )}
-
-        {showRows === 'more' && !isLoading && (
-          <Pagination
-            total={filteredList.length}
-            itemsPerPage={itemsPerPage}
-            currentPage={currentPage}
-            onPageChange={handlePaginate}
+          <Table
+            data={list}
+            setShowRows={setShowRows}
+            showRows={showRows}
+            error={error}
           />
         )}
       </Container>

@@ -1,100 +1,125 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 
-import { labels } from '../Form/Form';
+import Switcher from '../Switcher/Switcher';
+import Filter from '../Filter/Filter';
+import TableHead from '../Table/TableHead';
+import TableBody from '../Table/TableBody';
+import InfoCard from '../InfoCard/InfoCard';
+import Pagination from '../Pagination/Pagination';
+import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
-const headings = ['id', 'firstName', 'lastName', 'email', 'phone'];
+const Table = ({ data, setShowRows, showRows, error }) => {
+  const [list] = useState(data);
+  const [filterTerm, setFilterTerm] = useState('');
 
-const TableHead = ({ sortBy, sortingDirection, changeSortDirection }) => {
-  const [selected, setSelected] = useState('');
+  const [sortProperty, setSortProperty] = useState('id');
+  const [sortDirection, setSortDirection] = useState(null);
 
-  const showSortingSymbol = (name) => {
-    if (!sortingDirection) {
-      return '--';
+  const [currentPage, setCurrentPage] = useState(1);
+  const [itemsPerPage] = useState(50);
+
+  const [selectedUser, setSelectedUser] = useState(null);
+
+  useEffect(() => {
+    if (selectedUser) {
+      window.scroll({
+        top: document.body.scrollHeight,
+        behavior: 'smooth',
+      });
     }
+  }, [selectedUser]);
 
-    if (selected === name) {
-      return sortingDirection === 'desc' ? (
-        <span>&#8593;</span>
-      ) : (
-        <span>&#8595;</span>
-      );
-    }
+  const handleFilter = (searchTerm) => {
+    setSelectedUser(null);
+
+    setFilterTerm(searchTerm);
   };
 
-  return (
-    <thead>
-      <tr>
-        {headings.map((name) => (
-          <th
-            key={name}
-            onClick={() => {
-              sortBy(name, sortingDirection);
-              changeSortDirection((prevDirection) =>
-                prevDirection === 'asc' ? 'desc' : 'asc'
-              );
-              setSelected(name);
-            }}
-            className="border text-gray-800 font-semibold px-4 py-2 hover:bg-gray-300 cursor-pointer"
-            data-testid={`table-head-${name}`}
-          >
-            {labels[name]}&nbsp;
-            {showSortingSymbol(name)}
-          </th>
-        ))}
-      </tr>
-    </thead>
-  );
-};
-
-const TableRow = ({ id, firstName, lastName, email, phone, onSelectRow }) => {
-  const onSelectItem = () => {
-    onSelectRow({ id, firstName, lastName, email, phone });
-  };
-
-  return (
-    <tr onClick={onSelectItem} className="hover:bg-gray-300 cursor-pointer">
-      <td className="border px-4 py-2">{id}</td>
-      <td className="border px-4 py-2">{firstName}</td>
-      <td className="border px-4 py-2">{lastName}</td>
-      <td className="border px-4 py-2">{email.toLowerCase()}</td>
-      <td className="border px-4 py-2">{phone}</td>
-    </tr>
-  );
-};
-
-const TableBody = ({ data, onSelectRow }) => {
-  const displayTableRows = data.map((person, index) => {
+  const filterItems = (user) => {
     return (
-      <TableRow
-        key={`${person.id}${index}`}
-        {...person}
-        onSelectRow={onSelectRow}
-      />
+      user.id.toString().toLowerCase().includes(filterTerm.toLowerCase()) ||
+      user.firstName.toLowerCase().includes(filterTerm.toLowerCase()) ||
+      user.lastName.toLowerCase().includes(filterTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(filterTerm.toLowerCase()) ||
+      user.phone.toLowerCase().includes(filterTerm.toLowerCase())
     );
-  });
+  };
 
-  return <tbody data-testid="table-body">{displayTableRows}</tbody>;
-};
+  const sortItems = (item1, item2) => {
+    let result = 0;
+    if (item1[sortProperty] > item2[sortProperty]) {
+      result = -1;
+    }
 
-const Table = ({
-  data,
-  onSort,
-  onChangeSortDirection,
-  sortingDirection,
-  onSelectRow,
-}) => {
+    if (item1[sortProperty] < item2[sortProperty]) {
+      result = 1;
+    }
+
+    return sortDirection === 'asc' ? result * -1 : result;
+  };
+
+  const handleSelectUser = (user) => {
+    const foundUser = data.find(({ id }) => id === user.id);
+
+    setSelectedUser(foundUser);
+  };
+
+  const handleHideInfoCard = () => {
+    setSelectedUser(null);
+  };
+
+  const handlePaginate = (pageNumber) => {
+    setCurrentPage(pageNumber);
+  };
+
+  const displayPostsPerPage = (itemsList, currentPage, itemsPerPage) => {
+    const indexOfLastItem = currentPage * itemsPerPage;
+    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+    const currentPosts = itemsList.slice(indexOfFirstItem, indexOfLastItem);
+
+    return currentPosts;
+  };
+
+  const filteredList = list.filter(filterItems).sort(sortItems);
+  const currentPosts =
+    filteredList.length < itemsPerPage
+      ? filteredList
+      : displayPostsPerPage(filteredList, currentPage, itemsPerPage);
+
   return (
-    <table
-      className="table-auto w-full border mb-4 rounded"
-      data-testid="table"
-    >
-      <TableHead
-        sortBy={onSort}
-        sortingDirection={sortingDirection}
-        changeSortDirection={onChangeSortDirection}
-      />
-      <TableBody data={data} onSelectRow={onSelectRow} />
-    </table>
+    <>
+      <div className="flex w-full justify-between mb-2">
+        <Switcher onSelect={setShowRows} rowsToShow={showRows} />
+        <Filter onFilter={handleFilter} />
+      </div>
+      {filteredList.length === 0 && <p>Ничего не найдено</p>}
+      {!error ? (
+        <table
+          className="table-auto w-full border mb-4 rounded"
+          data-testid="table"
+        >
+          <TableHead
+            onSort={setSortProperty}
+            sortDirection={sortDirection}
+            onChangeSortDirection={setSortDirection}
+          />
+          <TableBody data={currentPosts} onSelectRow={handleSelectUser} />
+        </table>
+      ) : (
+        <ErrorMessage text={error} />
+      )}
+      {selectedUser && (
+        <InfoCard user={selectedUser} onClose={handleHideInfoCard} />
+      )}
+      {currentPosts.length >= itemsPerPage && (
+        <Pagination
+          total={data.length}
+          itemsPerPage={itemsPerPage}
+          currentPage={currentPage}
+          onPageChange={handlePaginate}
+        />
+      )}
+    </>
   );
 };
 
