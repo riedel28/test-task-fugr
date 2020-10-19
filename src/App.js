@@ -26,8 +26,6 @@ function App() {
     setList([user, ...list]);
   };
 
-  console.log(list);
-
   return (
     <Body>
       <Container>
