@@ -8,6 +8,8 @@ import InfoCard from '../InfoCard/InfoCard';
 import Pagination from '../Pagination/Pagination';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
+import { displayUsersFoundMessage } from '../../helpers';
+
 const Table = ({ data, setShowRows, showRows, error }) => {
   const [list] = useState(data);
   const [filterTerm, setFilterTerm] = useState('');
@@ -19,6 +21,7 @@ const Table = ({ data, setShowRows, showRows, error }) => {
   const [itemsPerPage] = useState(50);
 
   const [selectedUser, setSelectedUser] = useState(null);
+  const [searchStarted, setSearchStarted] = useState(false);
 
   useEffect(() => {
     if (selectedUser) {
@@ -31,6 +34,12 @@ const Table = ({ data, setShowRows, showRows, error }) => {
 
   const handleFilter = (searchTerm) => {
     setSelectedUser(null);
+
+    if (searchTerm === '') {
+      setSearchStarted(false);
+    } else {
+      setSearchStarted(true);
+    }
 
     setFilterTerm(searchTerm);
   };
@@ -92,8 +101,12 @@ const Table = ({ data, setShowRows, showRows, error }) => {
         <Switcher onSelect={setShowRows} rowsToShow={showRows} />
         <Filter onFilter={handleFilter} />
       </div>
-      {filteredList.length === 0 && <p>Ничего не найдено</p>}
-      {!error ? (
+      {searchStarted && (
+        <p className="my-4 font-semibold text-gray-800 text-lg">
+          {displayUsersFoundMessage(filteredList.length)}
+        </p>
+      )}
+      {!error && filteredList.length > 0 ? (
         <table
           className="table-auto w-full border mb-4 rounded"
           data-testid="table"
