@@ -23,8 +23,10 @@ function App() {
   }, [data, showRows]);
 
   const handleAddUser = (user) => {
-    setList((prevState) => [user, ...prevState]);
+    setList([user, ...list]);
   };
+
+  console.log(list);
 
   return (
     <Body>

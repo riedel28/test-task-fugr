@@ -11,10 +11,14 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { displayUsersFoundMessage } from '../../helpers';
 
 const Table = ({ data, setShowRows, showRows, error }) => {
-  const [list] = useState(data);
+  const [list, setList] = useState([]);
   const [filterTerm, setFilterTerm] = useState('');
 
-  const [sortProperty, setSortProperty] = useState('id');
+  useEffect(() => {
+    setList(data);
+  }, [data]);
+
+  const [sortProperty, setSortProperty] = useState(null);
   const [sortDirection, setSortDirection] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -56,6 +60,7 @@ const Table = ({ data, setShowRows, showRows, error }) => {
 
   const sortItems = (item1, item2) => {
     let result = 0;
+
     if (item1[sortProperty] > item2[sortProperty]) {
       result = -1;
     }
