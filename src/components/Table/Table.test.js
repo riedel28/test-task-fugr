@@ -46,13 +46,8 @@ describe('Table', () => {
   });
 
   test('should sort by id in descending order', () => {
-    const handleSort = jest.fn();
     const { getByTestId } = render(
-      <Table
-        data={testData}
-        onSort={handleSort}
-        onChangeSortDirection={() => {}}
-      />
+      <Table data={testData} onChangeSortDirection={() => {}} />
     );
     const tableBody = getByTestId('table-body');
     const tableHeadId = getByTestId('table-head-id');
@@ -60,7 +55,6 @@ describe('Table', () => {
 
     fireEvent.click(tableHeadId);
 
-    expect(handleSort).toHaveBeenCalledTimes(1);
     expect(firstRow).toHaveTextContent('685');
     expect(firstRow).toHaveTextContent('Quincy');
     expect(firstRow).toHaveTextContent('Mcnulty');

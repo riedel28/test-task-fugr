@@ -10,10 +10,10 @@ describe('Filter', () => {
     expect(filter).toBeInTheDocument();
   });
 
-  test('should run onSearch function ', () => {
+  test('should run onFilter function ', () => {
     const handleSearch = jest.fn();
     const { getByTestId, getByText } = render(
-      <Filter onSearch={handleSearch} />
+      <Filter onFilter={handleSearch} />
     );
     const filterInput = getByTestId('filter-input');
     const findButton = getByText(/Найти/i);

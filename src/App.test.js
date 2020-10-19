@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { render } from '@testing-library/react';
 import App from './App';
 
 describe('App', () => {
@@ -15,15 +15,5 @@ describe('App', () => {
     const preloader = getByTestId('preloader');
 
     expect(preloader).toBeInTheDocument();
-  });
-
-  test('should show pagination', async () => {
-    const { queryByTestId, getByText, findByTestId } = render(<App />);
-
-    expect(queryByTestId('pagination')).toBeNull();
-
-    fireEvent.click(getByText(/Показать много/i));
-
-    expect(await findByTestId('pagination')).toBeInTheDocument();
   });
 });
