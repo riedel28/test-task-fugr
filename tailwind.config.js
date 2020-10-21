@@ -1,5 +1,11 @@
 module.exports = {
-  purge: [],
+  future: {
+    removeDeprecatedGapUtilities: true,
+    purgeLayersByDefault: true,
+    defaultLineHeights: true,
+    standardFontWeights: true,
+  },
+  purge: { layers: ['utilities'] },
   target: 'relaxed',
   prefix: '',
   important: false,
