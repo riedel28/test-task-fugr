@@ -12,12 +12,7 @@ import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import { displayUsersFoundMessage } from '../../helpers';
 
 const Table = ({ data, setShowRows, showRows, isLoading, error }) => {
-  const [list, setList] = useState([]);
   const [filterTerm, setFilterTerm] = useState('');
-
-  useEffect(() => {
-    setList(data);
-  }, [data]);
 
   const [sortProperty, setSortProperty] = useState(null);
   const [sortDirection, setSortDirection] = useState(null);
@@ -95,7 +90,7 @@ const Table = ({ data, setShowRows, showRows, isLoading, error }) => {
     return currentPosts;
   };
 
-  const filteredList = list.filter(filterItems).sort(sortItems);
+  const filteredList = data.filter(filterItems).sort(sortItems);
   const currentPosts =
     filteredList.length < itemsPerPage
       ? filteredList
@@ -127,12 +122,12 @@ const Table = ({ data, setShowRows, showRows, isLoading, error }) => {
           <TableBody data={currentPosts} onSelectRow={handleSelectUser} />
         </table>
       )}
-      {error && <ErrorMessage text={error} />}
+      {error && <ErrorMessage text={error.message} />}
 
       {selectedUser && (
         <InfoCard user={selectedUser} onClose={handleHideInfoCard} />
       )}
-      {showRows === 'more' && (
+      {showRows === 'more' && currentPosts.length > 32 && (
         <Pagination
           total={data.length}
           itemsPerPage={itemsPerPage}
