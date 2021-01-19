@@ -1,5 +1,8 @@
 import React, { useState } from 'react';
 
+import { Input } from '../Form/InputWithLabel';
+import Button from '../Button/Button';
+
 const Filter = ({ onFilter }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
@@ -15,8 +18,7 @@ const Filter = ({ onFilter }) => {
       onSubmit={handleSubmit}
       data-testid="filter"
     >
-      <input
-        className="appearance-none w-1/2 block mr-2 text-gray-700 border border-gray-300 rounded py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+      <Input
         id="grid-password"
         type="text"
         placeholder="Фильтр по таблице"
@@ -24,12 +26,10 @@ const Filter = ({ onFilter }) => {
         onChange={(e) => {
           setSearchTerm(e.target.value);
         }}
-        data-testid="filter-input"
+        testId="filter-input"
       />
 
-      <button className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded focus:outline-none">
-        Найти
-      </button>
+      <Button>Найти</Button>
     </form>
   );
 };

@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+import InputWithLabel from './InputWithLabel';
 import Button from '../Button/Button';
 import { isObjEmpty, isEmailValid } from '../../helpers';
 
@@ -77,6 +78,7 @@ const Form = ({ onAddItem }) => {
             setShowForm(!showForm);
             setErrors({});
           }}
+          testId="form-open-button"
         >
           {!showForm ? 'Добавить в таблицу' : 'Закрыть форму'}
         </Button>
@@ -86,38 +88,21 @@ const Form = ({ onAddItem }) => {
         <form onSubmit={handleSubmit} noValidate data-testid="form">
           <div className="flex flex-row mb-2">
             {Object.keys(formValues).map((field) => (
-              <div className="mr-1" key={field}>
-                <label
-                  className="block uppercase text-xs text-gray-800 font-bold mb-1"
-                  htmlFor={field}
-                >
-                  {labels[field]}
-                </label>
-                <input
-                  className="text-gray-700 border border-gray-300 appearance-none py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 rounded"
-                  id={field}
-                  type={field === 'email' ? 'email' : 'text'}
-                  name={field}
-                  value={formValues[field]}
-                  onChange={handleChange}
-                  data-testid={`input-${field}`}
-                />
-                {errors[field] && (
-                  <span className=" text-pink-700 text-sm">
-                    {errors[field]}
-                  </span>
-                )}
-              </div>
+              <InputWithLabel
+                key={field}
+                id={field}
+                label={labels[field]}
+                type={field === 'email' ? 'email' : 'text'}
+                name={field}
+                value={formValues[field]}
+                onChange={handleChange}
+                error={errors[field]}
+                testId={`input-${field}`}
+              />
             ))}
           </div>
-          <div className="flex flex-row justify-end	">
-            <button
-              className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold focus:outline-none py-2 px-4 rounded"
-              type="submit"
-              data-testid="add-user-button"
-            >
-              Добавить
-            </button>
+          <div className="flex flex-row w-full justify-end">
+            <Button testId="add-user-button">Добавить</Button>
           </div>
         </form>
       )}
