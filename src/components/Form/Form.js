@@ -12,7 +12,7 @@ export const labels = {
 };
 
 const Form = ({ onAddItem }) => {
-  const [showForm, setShowForm] = useState(false);
+  const [showForm, setShowForm] = useState(true);
   const initialState = {
     id: '',
     firstName: '',
@@ -71,7 +71,7 @@ const Form = ({ onAddItem }) => {
 
   return (
     <div>
-      <div>
+      <div className="mb-3">
         <Button
           onClick={() => {
             setShowForm(!showForm);
@@ -81,57 +81,46 @@ const Form = ({ onAddItem }) => {
           {!showForm ? 'Добавить в таблицу' : 'Закрыть форму'}
         </Button>
       </div>
-      <div className="flex justify-center">
-        {showForm && (
-          <form
-            className="w-full max-w-sm m-4 flex flex-col items-center"
-            onSubmit={handleSubmit}
-            noValidate
-            data-testid="form"
-          >
-            {Object.keys(formValues).map((field) => (
-              <div className="w-2/3" key={field}>
-                <div className="mb-4 flex flex-col">
-                  <div className="">
-                    <label
-                      className="block uppercase text-xs text-gray-800 font-bold mb-1"
-                      htmlFor={field}
-                    >
-                      {labels[field]}
-                    </label>
-                  </div>
 
-                  <div>
-                    <input
-                      className="text-gray-700 border border-gray-300 appearance-none w-full py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 rounded"
-                      id={field}
-                      type={field === 'email' ? 'email' : 'text'}
-                      name={field}
-                      value={formValues[field]}
-                      onChange={handleChange}
-                      data-testid={`input-${field}`}
-                    />
-                    {errors[field] && (
-                      <span className=" text-pink-700 text-sm">
-                        {errors[field]}
-                      </span>
-                    )}
-                  </div>
-                </div>
+      {showForm && (
+        <form onSubmit={handleSubmit} noValidate data-testid="form">
+          <div className="flex flex-row mb-2">
+            {Object.keys(formValues).map((field) => (
+              <div className="mr-1" key={field}>
+                <label
+                  className="block uppercase text-xs text-gray-800 font-bold mb-1"
+                  htmlFor={field}
+                >
+                  {labels[field]}
+                </label>
+                <input
+                  className="text-gray-700 border border-gray-300 appearance-none py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 rounded"
+                  id={field}
+                  type={field === 'email' ? 'email' : 'text'}
+                  name={field}
+                  value={formValues[field]}
+                  onChange={handleChange}
+                  data-testid={`input-${field}`}
+                />
+                {errors[field] && (
+                  <span className=" text-pink-700 text-sm">
+                    {errors[field]}
+                  </span>
+                )}
               </div>
             ))}
-            <div className="md:flex md:items-center">
-              <button
-                className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold focus:outline-none py-2 px-4 rounded"
-                type="submit"
-                data-testid="add-user-button"
-              >
-                Добавить пользователя
-              </button>
-            </div>
-          </form>
-        )}
-      </div>
+          </div>
+          <div className="flex flex-row justify-end	">
+            <button
+              className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold focus:outline-none py-2 px-4 rounded"
+              type="submit"
+              data-testid="add-user-button"
+            >
+              Добавить
+            </button>
+          </div>
+        </form>
+      )}
     </div>
   );
 };
