@@ -12,7 +12,7 @@ export const labels = {
 };
 
 const Form = ({ onAddItem }) => {
-  const [showForm, setShowForm] = useState(true);
+  const [showForm, setShowForm] = useState(false);
   const initialState = {
     id: '',
     firstName: '',

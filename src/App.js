@@ -6,7 +6,6 @@ import Body from './components/Body/Body';
 import Container from './components/Container/Container';
 import Header from './components/Header/Header';
 import Form from './components/Form/Form';
-import Preloader from './components/Preloader/Preloader';
 import Table from './components/Table/Table';
 
 import { getUrl } from './api';
@@ -35,16 +34,13 @@ function App() {
           </div>
         </Header>
 
-        {isLoading ? (
-          <Preloader />
-        ) : (
-          <Table
-            data={list}
-            setShowRows={setShowRows}
-            showRows={showRows}
-            error={error}
-          />
-        )}
+        <Table
+          data={list}
+          setShowRows={setShowRows}
+          showRows={showRows}
+          isLoading={isLoading}
+          error={error}
+        />
       </Container>
     </Body>
   );

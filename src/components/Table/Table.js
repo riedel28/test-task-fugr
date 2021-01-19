@@ -6,11 +6,12 @@ import TableHead from '../Table/TableHead';
 import TableBody from '../Table/TableBody';
 import InfoCard from '../InfoCard/InfoCard';
 import Pagination from '../Pagination/Pagination';
+import Preloader from '../Preloader/Preloader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
 import { displayUsersFoundMessage } from '../../helpers';
 
-const Table = ({ data, setShowRows, showRows, error }) => {
+const Table = ({ data, setShowRows, showRows, isLoading, error }) => {
   const [list, setList] = useState([]);
   const [filterTerm, setFilterTerm] = useState('');
 
@@ -111,7 +112,9 @@ const Table = ({ data, setShowRows, showRows, error }) => {
           {displayUsersFoundMessage(filteredList.length)}
         </p>
       )}
-      {!error && filteredList.length > 0 ? (
+      {isLoading ? (
+        <Preloader />
+      ) : (
         <table
           className="table-auto w-full border mb-4 rounded"
           data-testid="table"
@@ -123,13 +126,13 @@ const Table = ({ data, setShowRows, showRows, error }) => {
           />
           <TableBody data={currentPosts} onSelectRow={handleSelectUser} />
         </table>
-      ) : (
-        <ErrorMessage text={error} />
       )}
+      {error && <ErrorMessage text={error} />}
+
       {selectedUser && (
         <InfoCard user={selectedUser} onClose={handleHideInfoCard} />
       )}
-      {currentPosts.length >= itemsPerPage && (
+      {showRows === 'more' && (
         <Pagination
           total={data.length}
           itemsPerPage={itemsPerPage}
