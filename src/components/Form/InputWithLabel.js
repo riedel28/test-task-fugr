@@ -48,7 +48,7 @@ const InputWithLabel = ({
   testId = '',
 }) => {
   return (
-    <div className="mr-1">
+    <div>
       <Label htmlFor={id} label={label} />
       <Input
         id={id}
