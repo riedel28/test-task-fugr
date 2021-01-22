@@ -15,8 +15,8 @@ export default function useFetchData(url) {
 
       setData(dataFromApi);
     } catch (error) {
-      console.log(error.message);
-      setError(error.message);
+      console.log(error);
+      setError(error);
     }
 
     setLoading(false);
