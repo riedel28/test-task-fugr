@@ -118,7 +118,7 @@ const Table = ({ data, setShowRows, showRows, isLoading, status, error }) => {
           </table>
         );
       case 'rejected':
-        return <ErrorMessage text={error.message} />;
+        return <ErrorMessage error={error} />;
       default:
         throw new Error('This should be impossible');
     }
