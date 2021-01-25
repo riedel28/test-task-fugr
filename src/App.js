@@ -15,7 +15,7 @@ function App() {
   const [list, setList] = useState([]);
   const [showRows, setShowRows] = useState('less');
 
-  const [{ data, isLoading, error }] = useFetchData(getUrl(showRows));
+  const [data, status, error] = useFetchData(getUrl(showRows));
 
   useEffect(() => {
     setList(data);
@@ -38,7 +38,8 @@ function App() {
           data={list}
           setShowRows={setShowRows}
           showRows={showRows}
-          isLoading={isLoading}
+          status={status}
+          // isLoading={isLoading}
           error={error}
         />
       </Container>

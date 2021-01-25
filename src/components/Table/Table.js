@@ -8,10 +8,9 @@ import InfoCard from '../InfoCard/InfoCard';
 import Pagination from '../Pagination/Pagination';
 import Preloader from '../Preloader/Preloader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import UsersFound from './UsersFound';
 
-import { displayUsersFoundMessage } from '../../helpers';
-
-const Table = ({ data, setShowRows, showRows, isLoading, error }) => {
+const Table = ({ data, setShowRows, showRows, isLoading, status, error }) => {
   const [filterTerm, setFilterTerm] = useState('');
 
   const [sortProperty, setSortProperty] = useState(null);
@@ -96,34 +95,43 @@ const Table = ({ data, setShowRows, showRows, isLoading, error }) => {
       ? filteredList
       : displayPostsPerPage(filteredList, currentPage, itemsPerPage);
 
+  const displayTable = () => {
+    switch (status) {
+      case 'idle':
+        return <Preloader />;
+
+      case 'loading':
+        return <Preloader />;
+
+      case 'resolved':
+        return (
+          <table
+            className="table-auto w-full border mb-4 rounded"
+            data-testid="table"
+          >
+            <TableHead
+              onSort={setSortProperty}
+              sortDirection={sortDirection}
+              onChangeSortDirection={setSortDirection}
+            />
+            <TableBody data={currentPosts} onSelectRow={handleSelectUser} />
+          </table>
+        );
+      case 'rejected':
+        return <ErrorMessage text={error.message} />;
+      default:
+        throw new Error('This should be impossible');
+    }
+  };
+
   return (
     <>
       <div className="flex w-full justify-between mb-2">
         <Switcher onSelect={setShowRows} rowsToShow={showRows} />
         <Filter onFilter={handleFilter} />
       </div>
-      {searchStarted && (
-        <p className="my-4 font-semibold text-gray-800 text-lg">
-          {displayUsersFoundMessage(filteredList.length)}
-        </p>
-      )}
-      {isLoading ? (
-        <Preloader />
-      ) : (
-        <table
-          className="table-auto w-full border mb-4 rounded"
-          data-testid="table"
-        >
-          <TableHead
-            onSort={setSortProperty}
-            sortDirection={sortDirection}
-            onChangeSortDirection={setSortDirection}
-          />
-          <TableBody data={currentPosts} onSelectRow={handleSelectUser} />
-        </table>
-      )}
-      {error && <ErrorMessage text={error.message} />}
-
+      {searchStarted && <UsersFound count={filteredList.length} />}
+      {displayTable()}
       {selectedUser && (
         <InfoCard user={selectedUser} onClose={handleHideInfoCard} />
       )}

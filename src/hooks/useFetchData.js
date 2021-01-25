@@ -2,29 +2,32 @@ import { useState, useEffect } from 'react';
 
 export default function useFetchData(url) {
   const [data, setData] = useState([]);
-  const [isLoading, setLoading] = useState(false);
   const [error, setError] = useState(null);
+  const [status, setStatus] = useState('idle');
 
   const fetchData = async (url) => {
-    setError(null);
-    setLoading(true);
+    setStatus('loading');
 
     try {
       const response = await fetch(url);
       const dataFromApi = await response.json();
 
       setData(dataFromApi);
+      setStatus('resolved');
     } catch (error) {
       console.log(error);
       setError(error);
+      setStatus('rejected');
     }
-
-    setLoading(false);
   };
 
   useEffect(() => {
+    if (!url) {
+      return;
+    }
+
     fetchData(url);
   }, [url]);
 
-  return [{ data, isLoading, error }, setError];
+  return [data, status, error];
 }
