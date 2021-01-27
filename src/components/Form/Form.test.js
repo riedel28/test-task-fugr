@@ -35,8 +35,8 @@ describe('Form', () => {
     expect(getByLabelText(/телефон/i)).toBeInTheDocument();
   });
 
-  test('to show erros by submitting a blank form', () => {
-    const { getByTestId, getByText } = render(<Form />);
+  test('button to be disabled, if inputs are empty', () => {
+    const { getByTestId } = render(<Form />);
 
     const openFormButton = getByTestId('form-open-button');
     fireEvent.click(openFormButton);
@@ -44,10 +44,7 @@ describe('Form', () => {
     const addUserButton = getByTestId('add-user-button');
     fireEvent.click(addUserButton);
 
-    expect(getByText(/Введите id/i)).toBeInTheDocument();
-    expect(getByText(/Введите имя/i)).toBeInTheDocument();
-    expect(getByText(/Введите фамилию/i)).toBeInTheDocument();
-    expect(getByText(/Введите электронную почту/i)).toBeInTheDocument();
+    expect(addUserButton).toBeDisabled();
   });
 
   test('form to be submitted', () => {
