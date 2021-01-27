@@ -29,9 +29,7 @@ function App() {
     <Body>
       <Container>
         <Header>
-          <div className="mb-4">
-            <Form onAddItem={handleAddUser} />
-          </div>
+          <Form onAddItem={handleAddUser} />
         </Header>
 
         <Table
@@ -39,7 +37,6 @@ function App() {
           setShowRows={setShowRows}
           showRows={showRows}
           status={status}
-          // isLoading={isLoading}
           error={error}
         />
       </Container>

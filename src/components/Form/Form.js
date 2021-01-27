@@ -24,6 +24,10 @@ const Form = ({ onAddItem }) => {
   const [formValues, setFormValues] = useState(initialState);
   const [errors, setErrors] = useState({});
 
+  const allInputsFilled = Object.values(formValues).every(
+    (value) => value !== ''
+  );
+
   const validate = (values) => {
     const errors = {};
 
@@ -102,7 +106,9 @@ const Form = ({ onAddItem }) => {
             ))}
           </div>
           <div className="flex flex-row w-full justify-end">
-            <Button testId="add-user-button">Добавить</Button>
+            <Button testId="add-user-button" disabled={!allInputsFilled}>
+              Добавить
+            </Button>
           </div>
         </form>
       )}

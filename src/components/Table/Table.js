@@ -10,7 +10,7 @@ import Preloader from '../Preloader/Preloader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import UsersFound from './UsersFound';
 
-const Table = ({ data, setShowRows, showRows, isLoading, status, error }) => {
+const Table = ({ data, setShowRows, showRows, status, error }) => {
   const [filterTerm, setFilterTerm] = useState('');
 
   const [sortProperty, setSortProperty] = useState(null);
