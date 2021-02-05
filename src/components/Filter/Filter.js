@@ -21,7 +21,7 @@ const Filter = ({ onFilter }) => {
       <Input
         id="grid-password"
         type="text"
-        placeholder="Фильтр по таблице"
+        placeholder="Search..."
         value={searchTerm}
         onChange={(e) => {
           setSearchTerm(e.target.value);
@@ -29,7 +29,7 @@ const Filter = ({ onFilter }) => {
         testId="filter-input"
       />
 
-      <Button>Найти</Button>
+      <Button>Find</Button>
     </form>
   );
 };

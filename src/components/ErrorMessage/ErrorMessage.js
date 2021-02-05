@@ -5,10 +5,10 @@ const ErrorMessage = ({ error }) => {
     error && (
       <div className="text-center border-none py-6">
         <h2 className="font-semibold text-gray-800 text-xl">
-          Произошла ошибка.
+          Some error happened.
         </h2>
         <h2 className="font-semibold text-gray-800 text-xl">
-          Не удалось загрузить данные
+          Can't get the data
         </h2>
       </div>
     )

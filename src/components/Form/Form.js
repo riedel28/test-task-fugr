@@ -6,10 +6,10 @@ import { isObjEmpty, isEmailValid } from '../../helpers';
 
 export const labels = {
   id: 'Id',
-  firstName: 'Имя',
-  lastName: 'Фамилия',
-  email: 'Электронная почта',
-  phone: 'Телефон',
+  firstName: 'First Name',
+  lastName: 'Last Name',
+  email: 'Email',
+  phone: 'Phone',
 };
 
 const Form = ({ onAddItem }) => {
@@ -32,23 +32,23 @@ const Form = ({ onAddItem }) => {
     const errors = {};
 
     if (!values.id) {
-      errors.id = 'Введите id';
+      errors.id = 'Enter id';
     } else if (values.id < 0) {
-      errors.id = 'Id не должен быть отрицательным числом';
+      errors.id = "Id shouldn't be nagative";
     }
 
     if (!values.firstName) {
-      errors.firstName = 'Введите имя';
+      errors.firstName = 'Enter a name';
     }
 
     if (!values.lastName) {
-      errors.lastName = 'Введите фамилию';
+      errors.lastName = 'Enter a last name';
     }
 
     if (!values.email) {
-      errors.email = 'Введите электронную почту';
+      errors.email = 'Enter email';
     } else if (!isEmailValid(values.email)) {
-      errors.email = 'Введите валидный email';
+      errors.email = 'Enter valid email';
     }
 
     return errors;
@@ -84,7 +84,7 @@ const Form = ({ onAddItem }) => {
           }}
           testId="form-open-button"
         >
-          {!showForm ? 'Добавить в таблицу' : 'Закрыть форму'}
+          {!showForm ? 'Add to the table' : 'Close form'}
         </Button>
       </div>
 
@@ -107,7 +107,7 @@ const Form = ({ onAddItem }) => {
           </div>
           <div className="flex flex-row w-full justify-end">
             <Button testId="add-user-button" disabled={!allInputsFilled}>
-              Добавить
+              Add
             </Button>
           </div>
         </form>

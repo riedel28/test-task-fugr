@@ -5,7 +5,7 @@ import App from './App';
 describe('App', () => {
   test('renders App component', () => {
     const { getByText } = render(<App />);
-    const button = getByText(/Добавить в таблицу/i);
+    const button = getByText(/add to the table/i);
 
     expect(button).toBeInTheDocument();
   });

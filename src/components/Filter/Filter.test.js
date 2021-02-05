@@ -16,7 +16,7 @@ describe('Filter', () => {
       <Filter onFilter={handleSearch} />
     );
     const filterInput = getByTestId('filter-input');
-    const findButton = getByText(/Найти/i);
+    const findButton = getByText(/find/i);
 
     fireEvent.change(filterInput, { target: { value: 'abc' } });
     fireEvent.click(findButton);

@@ -120,7 +120,7 @@ const Table = ({ data, setShowRows, showRows, status, error }) => {
       case 'rejected':
         return <ErrorMessage error={error} />;
       default:
-        throw new Error('This should be impossible');
+        throw new Error(`Unhandled status: ${status}`);
     }
   };
 

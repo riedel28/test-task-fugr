@@ -11,7 +11,7 @@ const Switcher = ({ onSelect, rowsToShow }) => {
           rowsToShow === 'more' ? 'bg-gray-200' : 'bg-transparent'
         } border border-gray-300 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-r-none rounded-l`}
       >
-        Показать много
+        Show more
       </button>
       <button
         onClick={() => {
@@ -21,7 +21,7 @@ const Switcher = ({ onSelect, rowsToShow }) => {
           rowsToShow === 'less' ? 'bg-gray-200' : 'bg-transparent'
         } border border-gray-300 hover:bg-gray-300 text-gray-800 font-semibold py-2 px-4 rounded-l-none rounded-r`}
       >
-        Показать мало
+        Show less
       </button>
     </div>
   );

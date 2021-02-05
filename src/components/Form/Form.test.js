@@ -19,7 +19,7 @@ describe('Form', () => {
     const form = getByTestId('form');
 
     expect(form).toBeInTheDocument();
-    expect(openFormButton).toHaveTextContent('Закрыть форму');
+    expect(openFormButton).toHaveTextContent('Close form');
   });
 
   test('inputs and labels to be in the form', () => {
@@ -29,10 +29,10 @@ describe('Form', () => {
     fireEvent.click(openFormButton);
 
     expect(getByLabelText(/id/i)).toBeInTheDocument();
-    expect(getByLabelText(/имя/i)).toBeInTheDocument();
-    expect(getByLabelText(/фамилия/i)).toBeInTheDocument();
-    expect(getByLabelText(/почта/i)).toBeInTheDocument();
-    expect(getByLabelText(/телефон/i)).toBeInTheDocument();
+    expect(getByLabelText(/first name/i)).toBeInTheDocument();
+    expect(getByLabelText(/last name/i)).toBeInTheDocument();
+    expect(getByLabelText(/email/i)).toBeInTheDocument();
+    expect(getByLabelText(/phone/i)).toBeInTheDocument();
   });
 
   test('button to be disabled, if inputs are empty', () => {
@@ -75,7 +75,7 @@ describe('Form', () => {
 
     expect(handleSubmit).toHaveBeenCalledTimes(1);
     expect(getByTestId('form-open-button')).toHaveTextContent(
-      'Добавить в таблицу'
+      'Add to the table'
     );
   });
 });
