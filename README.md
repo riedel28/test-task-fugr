@@ -1,6 +1,42 @@
 # Тестовое задание на позицию frontend разработчика
 
-![](https://abload.de/img/screenshot2021-02-05a4akuc.png)
+![Screenshot](https://abload.de/img/screenshot2021-02-05a4akuc.png)
+
+
+## How to start
+
+
+```javascript 
+git clone https://github.com/riedel28/test-task-fugr.git
+
+cd test-task-fugr
+
+npm install
+
+npm run start
+```
+
+## Start with Docker
+
+Start Docker on your machine and then run following commands:
+
+```javascript 
+git clone https://github.com/riedel28/test-task-fugr.git
+
+cd test-task-fugr
+
+docker-compose up
+```
+
+### Demo
+
+Your can play around with the app without cloning the repo here:
+[https://test-task-fugr.netlify.app](https://test-task-fugr.netlify.app)
+
+---
+
+Here is the detailed description of the tesk task requirements (in Russian):
+
 
 ## Описание
 
@@ -92,26 +128,3 @@ http://www.filltext.com/?rows=1000&id={number|1000}&firstName={firstName}&delay=
     Индекс: <b>22178</b>
 
 Дополнительно напишите нам, как вы тестировали результат своей работы. Какие используете инструменты и как вы осуществляете тестирование.
-
-## Как стартовать
-
-Склонируйте репозиторий по ссылке
-
-`https://github.com/riedel28/test-task-fugr.git`
-
-Перейдите в директорию проекта и стартуйте проект командой
-
-`npm run start`
-
-Откройте браузер по адресу [http://localhost:3000](http://localhost:3000)
-
-**Старт в Docker контейнере**
-
-Запустите проект из корневой директории командой
-
-`docker-compose up`
-
-**Демо**
-
-В качестве альтернативы можно посмотреть демо не разворачивая проект локально.
-Для этого просто перейдите по ссылке [https://test-task-fugr.netlify.app](https://test-task-fugr.netlify.app)
