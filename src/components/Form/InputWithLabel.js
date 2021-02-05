@@ -48,7 +48,7 @@ const InputWithLabel = ({
   testId = '',
 }) => {
   return (
-    <div>
+    <div className="flex flex-col" style={{ width: '186px' }}>
       <Label htmlFor={id} label={label} />
       <Input
         id={id}
