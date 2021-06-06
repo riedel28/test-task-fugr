@@ -100,59 +100,76 @@ const Table = ({
 
       case 'resolved':
         return (
-          <table
-            className="table-auto w-full border mb-4 rounded"
-            data-testid="table"
-            {...getTableProps()}
-          >
-            <thead>
-              {headerGroups.map((headerGroup) => (
-                <tr {...headerGroup.getHeaderGroupProps()}>
-                  {headerGroup.headers.map((column) => (
-                    <th
-                      className="border text-gray-800 font-semibold px-4 py-2 hover:bg-gray-300 cursor-pointer"
-                      {...column.getHeaderProps(column.getSortByToggleProps())}
+          <>
+            {page.length < 1 ? (
+              <div className="text-center border-none py-6">
+                <h2 className="font-semibold text-gray-800 text-xl">
+                  Could not find anything
+                </h2>
+                <p>Try again.</p>
+              </div>
+            ) : (
+              <table
+                className="table-auto w-full border mb-4 rounded"
+                data-testid="table"
+                {...getTableProps()}
+              >
+                <thead>
+                  {headerGroups.map((headerGroup) => (
+                    <tr
+                      {...headerGroup.getHeaderGroupProps()}
+                      data-testId="table-head-id"
                     >
-                      {column.render('Header')}
-                      <span>
-                        {column.isSorted
-                          ? column.isSortedDesc
-                            ? ' ↑'
-                            : ' ↓'
-                          : ''}
-                      </span>
-                    </th>
-                  ))}
-                </tr>
-              ))}
-            </thead>
-            <tbody {...getTableBodyProps()}>
-              {page.map((row) => {
-                prepareRow(row);
-                return (
-                  <tr
-                    className="hover:bg-gray-300 cursor-pointer"
-                    onClick={handleSelectUser}
-                    {...row.getRowProps({
-                      onClick: (e) =>
-                        handleSelectUser && handleSelectUser(row.original, e),
-                    })}
-                  >
-                    {row.cells.map((cell) => {
-                      return (
-                        <td
-                          className="border px-4 py-2"
-                          {...cell.getCellProps()}
+                      {headerGroup.headers.map((column) => (
+                        <th
+                          className="border text-gray-800 font-semibold px-4 py-2 hover:bg-gray-300 cursor-pointer"
+                          {...column.getHeaderProps(
+                            column.getSortByToggleProps()
+                          )}
                         >
-                          {cell.render('Cell')}
-                        </td>
-                      );
-                    })}
-                  </tr>
-                );
-              })}
-            </tbody>
-          </table>
+                          {column.render('Header')}
+                          <span>
+                            {column.isSorted
+                              ? column.isSortedDesc
+                                ? ' ↑'
+                                : ' ↓'
+                              : ''}
+                          </span>
+                        </th>
+                      ))}
+                    </tr>
+                  ))}
+                </thead>
+                <tbody {...getTableBodyProps()} data-testId="table-body">
+                  {page.map((row) => {
+                    prepareRow(row);
+                    return (
+                      <tr
+                        className="hover:bg-gray-300 cursor-pointer"
+                        onClick={handleSelectUser}
+                        {...row.getRowProps({
+                          onClick: (e) =>
+                            handleSelectUser &&
+                            handleSelectUser(row.original, e),
+                        })}
+                      >
+                        {row.cells.map((cell) => {
+                          return (
+                            <td
+                              className="border px-4 py-2"
+                              {...cell.getCellProps()}
+                            >
+                              {cell.render('Cell')}
+                            </td>
+                          );
+                        })}
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            )}
+          </>
         );
       case 'rejected':
         return <ErrorMessage error={error} />;
