@@ -1,26 +1,54 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { useTable, useSortBy } from 'react-table';
 
 import Switcher from '../Switcher/Switcher';
 import Filter from '../Filter/Filter';
-import TableHead from '../Table/TableHead';
-import TableBody from '../Table/TableBody';
 import InfoCard from '../InfoCard/InfoCard';
 import Pagination from '../Pagination/Pagination';
 import Preloader from '../Preloader/Preloader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 import UsersFound from './UsersFound';
 
-const Table = ({ data, setShowRows, showRows, status, error }) => {
+const Table = ({ data: tableData, setShowRows, showRows, status, error }) => {
   const [filterTerm, setFilterTerm] = useState('');
-
-  const [sortProperty, setSortProperty] = useState(null);
-  const [sortDirection, setSortDirection] = useState(null);
 
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(50);
 
   const [selectedUser, setSelectedUser] = useState(null);
   const [searchStarted, setSearchStarted] = useState(false);
+
+  const data = useMemo(() => tableData, [tableData]);
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Id',
+        accessor: 'id',
+      },
+      {
+        Header: 'First name',
+        accessor: 'firstName',
+      },
+      {
+        Header: 'Last name',
+        accessor: 'lastName',
+      },
+
+      {
+        Header: 'Email',
+        accessor: 'email',
+      },
+      {
+        Header: 'Phone',
+        accessor: 'phone',
+      },
+    ],
+    []
+  );
+
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data }, useSortBy);
 
   useEffect(() => {
     if (selectedUser) {
@@ -53,22 +81,9 @@ const Table = ({ data, setShowRows, showRows, status, error }) => {
     );
   };
 
-  const sortItems = (item1, item2) => {
-    let result = 0;
-
-    if (item1[sortProperty] > item2[sortProperty]) {
-      result = -1;
-    }
-
-    if (item1[sortProperty] < item2[sortProperty]) {
-      result = 1;
-    }
-
-    return sortDirection === 'asc' ? result * -1 : result;
-  };
-
   const handleSelectUser = (user) => {
-    const foundUser = data.find(({ id }) => id === user.id);
+    console.log(user);
+    const foundUser = tableData.find(({ id }) => id === user.id);
 
     setSelectedUser(foundUser);
   };
@@ -89,7 +104,7 @@ const Table = ({ data, setShowRows, showRows, status, error }) => {
     return currentPosts;
   };
 
-  const filteredList = data.filter(filterItems).sort(sortItems);
+  const filteredList = data.filter(filterItems);
   const currentPosts =
     filteredList.length < itemsPerPage
       ? filteredList
@@ -108,13 +123,55 @@ const Table = ({ data, setShowRows, showRows, status, error }) => {
           <table
             className="table-auto w-full border mb-4 rounded"
             data-testid="table"
+            {...getTableProps()}
           >
-            <TableHead
-              onSort={setSortProperty}
-              sortDirection={sortDirection}
-              onChangeSortDirection={setSortDirection}
-            />
-            <TableBody data={currentPosts} onSelectRow={handleSelectUser} />
+            <thead>
+              {headerGroups.map((headerGroup) => (
+                <tr {...headerGroup.getHeaderGroupProps()}>
+                  {headerGroup.headers.map((column) => (
+                    <th
+                      className="border text-gray-800 font-semibold px-4 py-2 hover:bg-gray-300 cursor-pointer"
+                      {...column.getHeaderProps(column.getSortByToggleProps())}
+                    >
+                      {column.render('Header')}
+                      <span>
+                        {column.isSorted
+                          ? column.isSortedDesc
+                            ? ' ↑'
+                            : ' ↓'
+                          : ''}
+                      </span>
+                    </th>
+                  ))}
+                </tr>
+              ))}
+            </thead>
+            <tbody {...getTableBodyProps()}>
+              {rows.map((row) => {
+                prepareRow(row);
+                return (
+                  <tr
+                    className="hover:bg-gray-300 cursor-pointer"
+                    onClick={handleSelectUser}
+                    {...row.getRowProps({
+                      onClick: (e) =>
+                        handleSelectUser && handleSelectUser(row.original, e),
+                    })}
+                  >
+                    {row.cells.map((cell) => {
+                      return (
+                        <td
+                          className="border px-4 py-2"
+                          {...cell.getCellProps()}
+                        >
+                          {cell.render('Cell')}
+                        </td>
+                      );
+                    })}
+                  </tr>
+                );
+              })}
+            </tbody>
           </table>
         );
       case 'rejected':
