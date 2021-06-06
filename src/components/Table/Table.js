@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useTable, useSortBy } from 'react-table';
+import { useTable, useSortBy, useGlobalFilter } from 'react-table';
 
 import Switcher from '../Switcher/Switcher';
 import Filter from '../Filter/Filter';
@@ -7,16 +7,12 @@ import InfoCard from '../InfoCard/InfoCard';
 import Pagination from '../Pagination/Pagination';
 import Preloader from '../Preloader/Preloader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import UsersFound from './UsersFound';
 
 const Table = ({ data: tableData, setShowRows, showRows, status, error }) => {
-  const [filterTerm, setFilterTerm] = useState('');
-
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage] = useState(50);
 
   const [selectedUser, setSelectedUser] = useState(null);
-  const [searchStarted, setSearchStarted] = useState(false);
 
   const data = useMemo(() => tableData, [tableData]);
 
@@ -47,8 +43,14 @@ const Table = ({ data: tableData, setShowRows, showRows, status, error }) => {
     []
   );
 
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data }, useSortBy);
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    rows,
+    prepareRow,
+    setGlobalFilter,
+  } = useTable({ columns, data }, useGlobalFilter, useSortBy);
 
   useEffect(() => {
     if (selectedUser) {
@@ -59,33 +61,8 @@ const Table = ({ data: tableData, setShowRows, showRows, status, error }) => {
     }
   }, [selectedUser]);
 
-  const handleFilter = (searchTerm) => {
-    setSelectedUser(null);
-
-    if (searchTerm === '') {
-      setSearchStarted(false);
-    } else {
-      setSearchStarted(true);
-    }
-
-    setFilterTerm(searchTerm);
-  };
-
-  const filterItems = (user) => {
-    return (
-      user.id.toString().toLowerCase().includes(filterTerm.toLowerCase()) ||
-      user.firstName.toLowerCase().includes(filterTerm.toLowerCase()) ||
-      user.lastName.toLowerCase().includes(filterTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(filterTerm.toLowerCase()) ||
-      user.phone.toLowerCase().includes(filterTerm.toLowerCase())
-    );
-  };
-
   const handleSelectUser = (user) => {
-    console.log(user);
-    const foundUser = tableData.find(({ id }) => id === user.id);
-
-    setSelectedUser(foundUser);
+    setSelectedUser(tableData.find(({ id }) => id === user.id));
   };
 
   const handleHideInfoCard = () => {
@@ -95,20 +72,6 @@ const Table = ({ data: tableData, setShowRows, showRows, status, error }) => {
   const handlePaginate = (pageNumber) => {
     setCurrentPage(pageNumber);
   };
-
-  const displayPostsPerPage = (itemsList, currentPage, itemsPerPage) => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentPosts = itemsList.slice(indexOfFirstItem, indexOfLastItem);
-
-    return currentPosts;
-  };
-
-  const filteredList = data.filter(filterItems);
-  const currentPosts =
-    filteredList.length < itemsPerPage
-      ? filteredList
-      : displayPostsPerPage(filteredList, currentPage, itemsPerPage);
 
   const displayTable = () => {
     switch (status) {
@@ -185,14 +148,13 @@ const Table = ({ data: tableData, setShowRows, showRows, status, error }) => {
     <>
       <div className="flex w-full justify-between mb-2">
         <Switcher onSelect={setShowRows} rowsToShow={showRows} />
-        <Filter onFilter={handleFilter} />
+        <Filter onFilter={setGlobalFilter} />
       </div>
-      {searchStarted && <UsersFound count={filteredList.length} />}
       {displayTable()}
       {selectedUser && (
         <InfoCard user={selectedUser} onClose={handleHideInfoCard} />
       )}
-      {showRows === 'more' && currentPosts.length > 32 && (
+      {showRows === 'more' && (
         <Pagination
           total={data.length}
           itemsPerPage={itemsPerPage}
