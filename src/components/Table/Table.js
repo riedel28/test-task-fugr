@@ -1,5 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { useTable, useSortBy, useGlobalFilter } from 'react-table';
+import {
+  useTable,
+  useSortBy,
+  useGlobalFilter,
+  usePagination,
+} from 'react-table';
 
 import Switcher from '../Switcher/Switcher';
 import Filter from '../Filter/Filter';
@@ -8,10 +13,13 @@ import Pagination from '../Pagination/Pagination';
 import Preloader from '../Preloader/Preloader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
 
-const Table = ({ data: tableData, setShowRows, showRows, status, error }) => {
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(50);
-
+const Table = ({
+  data: tableData,
+  setAmountOfRecords,
+  amountOfRecords,
+  status,
+  error,
+}) => {
   const [selectedUser, setSelectedUser] = useState(null);
 
   const data = useMemo(() => tableData, [tableData]);
@@ -47,10 +55,23 @@ const Table = ({ data: tableData, setShowRows, showRows, status, error }) => {
     getTableProps,
     getTableBodyProps,
     headerGroups,
-    rows,
+    page,
+    pageOptions,
+    state: { pageIndex },
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    gotoPage,
+    pageCount,
     prepareRow,
     setGlobalFilter,
-  } = useTable({ columns, data }, useGlobalFilter, useSortBy);
+  } = useTable(
+    { columns, data, initialState: { pageSize: 32 } },
+    useGlobalFilter,
+    useSortBy,
+    usePagination
+  );
 
   useEffect(() => {
     if (selectedUser) {
@@ -67,10 +88,6 @@ const Table = ({ data: tableData, setShowRows, showRows, status, error }) => {
 
   const handleHideInfoCard = () => {
     setSelectedUser(null);
-  };
-
-  const handlePaginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
   };
 
   const displayTable = () => {
@@ -110,7 +127,7 @@ const Table = ({ data: tableData, setShowRows, showRows, status, error }) => {
               ))}
             </thead>
             <tbody {...getTableBodyProps()}>
-              {rows.map((row) => {
+              {page.map((row) => {
                 prepareRow(row);
                 return (
                   <tr
@@ -147,19 +164,26 @@ const Table = ({ data: tableData, setShowRows, showRows, status, error }) => {
   return (
     <>
       <div className="flex w-full justify-between mb-2">
-        <Switcher onSelect={setShowRows} rowsToShow={showRows} />
+        <Switcher
+          onSelect={setAmountOfRecords}
+          amountOfRecords={amountOfRecords}
+        />
         <Filter onFilter={setGlobalFilter} />
       </div>
       {displayTable()}
       {selectedUser && (
         <InfoCard user={selectedUser} onClose={handleHideInfoCard} />
       )}
-      {showRows === 'more' && (
+      {pageOptions.length > 1 && (
         <Pagination
-          total={data.length}
-          itemsPerPage={itemsPerPage}
-          currentPage={currentPage}
-          onPageChange={handlePaginate}
+          totalPagesCount={pageCount}
+          currentPage={pageIndex}
+          pageOptions={pageOptions}
+          goToPrevPage={() => previousPage()}
+          goToNextPage={() => nextPage()}
+          goToPage={gotoPage}
+          canPrevPage={canPreviousPage}
+          canNextPage={canNextPage}
         />
       )}
     </>
