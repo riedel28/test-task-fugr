@@ -6,6 +6,10 @@ import Button from '../Button/Button';
 const Filter = ({ onFilter }) => {
   const [searchTerm, setSearchTerm] = useState('');
 
+  const handleChange = (e) => {
+    setSearchTerm(e.target.value);
+  };
+
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -23,9 +27,7 @@ const Filter = ({ onFilter }) => {
         type="text"
         placeholder="Search..."
         value={searchTerm}
-        onChange={(e) => {
-          setSearchTerm(e.target.value);
-        }}
+        onChange={handleChange}
         testId="filter-input"
       />
 

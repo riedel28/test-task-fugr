@@ -1,42 +1,61 @@
 import React from 'react';
 
-const PaginationItem = ({ page, currentPage, paginate }) => {
-  const activeClass = currentPage === page ? `bg-gray-300` : ``;
+const Pagination = ({
+  totalPagesCount,
+  currentPage,
+  pageOptions,
+  goToPage,
+  goToNextPage,
+  goToPrevPage,
+  canNextPage,
+  canPrevPage,
+}) => {
+  const handlePaginate = (e) => {
+    const pageNumber = e.target.value ? Number(e.target.value) - 1 : 0;
+
+    goToPage(pageNumber);
+  };
 
   return (
-    <button
-      href={`#`}
-      className={`px-4 py-2 border border-gray-300 ${activeClass}`}
-      onClick={() => {
-        paginate(page);
-      }}
-    >
-      {page}
-    </button>
-  );
-};
-
-const range = (start, end) => [...Array(end).keys()].map((el) => el + start);
-
-const Pagination = ({ total, itemsPerPage, currentPage, onPageChange }) => {
-  const pagesCount = Math.ceil(total / itemsPerPage);
-  const pageNumbers = range(1, pagesCount);
-
-  return (
-    pageNumbers.length > 1 && (
-      <nav className="flex flex-wrap rounded" data-testid="pagination">
-        {pageNumbers.map((pageNumber) => {
-          return (
-            <PaginationItem
-              key={pageNumber}
-              page={pageNumber}
-              currentPage={currentPage}
-              paginate={onPageChange}
-            />
-          );
-        })}
-      </nav>
-    )
+    <div className="flex items-stretch">
+      <button
+        className={`px-4 py-2 mr-2 border border-gray-300 rounded disabled:opacity-100`}
+        onClick={() => goToPage(0)}
+        disabled={!canPrevPage}
+      >
+        Go to first
+      </button>
+      <button
+        className={`px-4 py-2 border border-gray-300 rounded`}
+        onClick={goToPrevPage}
+        disabled={!canPrevPage}
+      >
+        ←
+      </button>
+      <div className="mx-2 flex items-center">
+        <input
+          type="number"
+          value={currentPage + 1}
+          onChange={handlePaginate}
+          className="text-gray-700 border border-gray-300 w-20 appearance-none mr-1 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 rounded"
+        />{' '}
+        <span className="ml-1">of {pageOptions.length}</span>
+      </div>
+      <button
+        className={`px-4 py-2 mr-2 border border-gray-300 rounded`}
+        onClick={goToNextPage}
+        disabled={!canNextPage}
+      >
+        →
+      </button>
+      <button
+        className={`px-4 py-2 mr-2 border border-gray-300 rounded`}
+        onClick={() => goToPage(totalPagesCount - 1)}
+        disabled={!canNextPage}
+      >
+        Go to last
+      </button>
+    </div>
   );
 };
 

@@ -13,13 +13,12 @@ import useFetchData from './hooks/useFetchData';
 
 function App() {
   const [list, setList] = useState([]);
-  const [showRows, setShowRows] = useState('less');
-
-  const [data, status, error] = useFetchData(getUrl(showRows));
+  const [amountOfRecords, setAmountOfRecords] = useState(32);
+  const [data, status, error] = useFetchData(getUrl(amountOfRecords));
 
   useEffect(() => {
     setList(data);
-  }, [data, showRows]);
+  }, [data, amountOfRecords]);
 
   const handleAddUser = (user) => {
     setList([user, ...list]);
@@ -34,8 +33,8 @@ function App() {
 
         <Table
           data={list}
-          setShowRows={setShowRows}
-          showRows={showRows}
+          setAmountOfRecords={setAmountOfRecords}
+          amountOfRecords={amountOfRecords}
           status={status}
           error={error}
         />

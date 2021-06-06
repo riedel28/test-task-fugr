@@ -1,26 +1,81 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
+import {
+  useTable,
+  useSortBy,
+  useGlobalFilter,
+  usePagination,
+} from 'react-table';
 
+import TableHead from './TableHead';
+import TableBody from './TableBody';
+import TableRow from './TableRow';
+import TableCell from './TableCell';
 import Switcher from '../Switcher/Switcher';
 import Filter from '../Filter/Filter';
-import TableHead from '../Table/TableHead';
-import TableBody from '../Table/TableBody';
 import InfoCard from '../InfoCard/InfoCard';
 import Pagination from '../Pagination/Pagination';
 import Preloader from '../Preloader/Preloader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
-import UsersFound from './UsersFound';
 
-const Table = ({ data, setShowRows, showRows, status, error }) => {
-  const [filterTerm, setFilterTerm] = useState('');
-
-  const [sortProperty, setSortProperty] = useState(null);
-  const [sortDirection, setSortDirection] = useState(null);
-
-  const [currentPage, setCurrentPage] = useState(1);
-  const [itemsPerPage] = useState(50);
-
+const Table = ({
+  data: tableData,
+  setAmountOfRecords,
+  amountOfRecords,
+  status,
+  error,
+}) => {
   const [selectedUser, setSelectedUser] = useState(null);
-  const [searchStarted, setSearchStarted] = useState(false);
+
+  const data = useMemo(() => tableData, [tableData]);
+
+  const columns = useMemo(
+    () => [
+      {
+        Header: 'Id',
+        accessor: 'id',
+      },
+      {
+        Header: 'First name',
+        accessor: 'firstName',
+      },
+      {
+        Header: 'Last name',
+        accessor: 'lastName',
+      },
+
+      {
+        Header: 'Email',
+        accessor: 'email',
+      },
+      {
+        Header: 'Phone',
+        accessor: 'phone',
+      },
+    ],
+    []
+  );
+
+  const {
+    getTableProps,
+    getTableBodyProps,
+    headerGroups,
+    page,
+    pageOptions,
+    state: { pageIndex },
+    nextPage,
+    previousPage,
+    canNextPage,
+    canPreviousPage,
+    gotoPage,
+    pageCount,
+    prepareRow,
+    setGlobalFilter,
+  } = useTable(
+    { columns, data, initialState: { pageSize: 32 } },
+    useGlobalFilter,
+    useSortBy,
+    usePagination
+  );
 
   useEffect(() => {
     if (selectedUser) {
@@ -31,69 +86,13 @@ const Table = ({ data, setShowRows, showRows, status, error }) => {
     }
   }, [selectedUser]);
 
-  const handleFilter = (searchTerm) => {
-    setSelectedUser(null);
-
-    if (searchTerm === '') {
-      setSearchStarted(false);
-    } else {
-      setSearchStarted(true);
-    }
-
-    setFilterTerm(searchTerm);
-  };
-
-  const filterItems = (user) => {
-    return (
-      user.id.toString().toLowerCase().includes(filterTerm.toLowerCase()) ||
-      user.firstName.toLowerCase().includes(filterTerm.toLowerCase()) ||
-      user.lastName.toLowerCase().includes(filterTerm.toLowerCase()) ||
-      user.email.toLowerCase().includes(filterTerm.toLowerCase()) ||
-      user.phone.toLowerCase().includes(filterTerm.toLowerCase())
-    );
-  };
-
-  const sortItems = (item1, item2) => {
-    let result = 0;
-
-    if (item1[sortProperty] > item2[sortProperty]) {
-      result = -1;
-    }
-
-    if (item1[sortProperty] < item2[sortProperty]) {
-      result = 1;
-    }
-
-    return sortDirection === 'asc' ? result * -1 : result;
-  };
-
   const handleSelectUser = (user) => {
-    const foundUser = data.find(({ id }) => id === user.id);
-
-    setSelectedUser(foundUser);
+    setSelectedUser(tableData.find(({ id }) => id === user.id));
   };
 
   const handleHideInfoCard = () => {
     setSelectedUser(null);
   };
-
-  const handlePaginate = (pageNumber) => {
-    setCurrentPage(pageNumber);
-  };
-
-  const displayPostsPerPage = (itemsList, currentPage, itemsPerPage) => {
-    const indexOfLastItem = currentPage * itemsPerPage;
-    const indexOfFirstItem = indexOfLastItem - itemsPerPage;
-    const currentPosts = itemsList.slice(indexOfFirstItem, indexOfLastItem);
-
-    return currentPosts;
-  };
-
-  const filteredList = data.filter(filterItems).sort(sortItems);
-  const currentPosts =
-    filteredList.length < itemsPerPage
-      ? filteredList
-      : displayPostsPerPage(filteredList, currentPage, itemsPerPage);
 
   const displayTable = () => {
     switch (status) {
@@ -105,17 +104,71 @@ const Table = ({ data, setShowRows, showRows, status, error }) => {
 
       case 'resolved':
         return (
-          <table
-            className="table-auto w-full border mb-4 rounded"
-            data-testid="table"
-          >
-            <TableHead
-              onSort={setSortProperty}
-              sortDirection={sortDirection}
-              onChangeSortDirection={setSortDirection}
-            />
-            <TableBody data={currentPosts} onSelectRow={handleSelectUser} />
-          </table>
+          <>
+            {page.length < 1 ? (
+              <div className="text-center border-none py-6">
+                <h2 className="font-semibold text-gray-800 text-xl">
+                  Could not find anything
+                </h2>
+                <p>Try again.</p>
+              </div>
+            ) : (
+              <table
+                className="table-auto w-full border mb-4 rounded"
+                data-testid="table"
+                {...getTableProps()}
+              >
+                <TableHead>
+                  {headerGroups.map((headerGroup) => (
+                    <tr
+                      {...headerGroup.getHeaderGroupProps()}
+                      data-testid="table-head-id"
+                    >
+                      {headerGroup.headers.map((column) => (
+                        <th
+                          className="border text-gray-800 font-semibold px-4 py-2 hover:bg-gray-300 cursor-pointer"
+                          {...column.getHeaderProps(
+                            column.getSortByToggleProps()
+                          )}
+                        >
+                          {column.render('Header')}
+                          <span>
+                            {column.isSorted
+                              ? column.isSortedDesc
+                                ? ' ↑'
+                                : ' ↓'
+                              : ''}
+                          </span>
+                        </th>
+                      ))}
+                    </tr>
+                  ))}
+                </TableHead>
+                <TableBody {...getTableBodyProps()}>
+                  {page.map((row) => {
+                    prepareRow(row);
+                    return (
+                      <TableRow
+                        {...row.getRowProps({
+                          onClick: (e) =>
+                            handleSelectUser &&
+                            handleSelectUser(row.original, e),
+                        })}
+                      >
+                        {row.cells.map((cell) => {
+                          return (
+                            <TableCell {...cell.getCellProps()}>
+                              {cell.render('Cell')}
+                            </TableCell>
+                          );
+                        })}
+                      </TableRow>
+                    );
+                  })}
+                </TableBody>
+              </table>
+            )}
+          </>
         );
       case 'rejected':
         return <ErrorMessage error={error} />;
@@ -127,20 +180,26 @@ const Table = ({ data, setShowRows, showRows, status, error }) => {
   return (
     <>
       <div className="flex w-full justify-between mb-2">
-        <Switcher onSelect={setShowRows} rowsToShow={showRows} />
-        <Filter onFilter={handleFilter} />
+        <Switcher
+          onSelect={setAmountOfRecords}
+          amountOfRecords={amountOfRecords}
+        />
+        <Filter onFilter={setGlobalFilter} />
       </div>
-      {searchStarted && <UsersFound count={filteredList.length} />}
       {displayTable()}
       {selectedUser && (
         <InfoCard user={selectedUser} onClose={handleHideInfoCard} />
       )}
-      {showRows === 'more' && currentPosts.length > 32 && (
+      {pageOptions.length > 1 && (
         <Pagination
-          total={data.length}
-          itemsPerPage={itemsPerPage}
-          currentPage={currentPage}
-          onPageChange={handlePaginate}
+          totalPagesCount={pageCount}
+          currentPage={pageIndex}
+          pageOptions={pageOptions}
+          goToPrevPage={() => previousPage()}
+          goToNextPage={() => nextPage()}
+          goToPage={gotoPage}
+          canPrevPage={canPreviousPage}
+          canNextPage={canNextPage}
         />
       )}
     </>

@@ -5,7 +5,7 @@ const ErrorMessage = ({ error }) => {
     error && (
       <div className="text-center border-none py-6">
         <h2 className="font-semibold text-gray-800 text-xl">
-          Some error happened.
+          An error occured.
         </h2>
         <h2 className="font-semibold text-gray-800 text-xl">
           Can't get the data
