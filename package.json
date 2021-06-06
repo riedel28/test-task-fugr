@@ -13,6 +13,7 @@
     "react-dom": "^16.13.1",
     "react-loader-spinner": "^3.1.14",
     "react-scripts": "^4.0.1",
+    "react-table": "^7.7.0",
     "tailwindcss": "^1.4.6"
   },
   "scripts": {
