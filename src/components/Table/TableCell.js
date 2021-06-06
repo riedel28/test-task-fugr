@@ -1,8 +1,8 @@
 import React from 'react';
 
-const TableCell = ({ classname, children, ...rest }) => {
+const TableCell = ({ children, ...rest }) => {
   return (
-    <td className={classname} {...rest}>
+    <td className="border px-4 py-2" {...rest}>
       {children}
     </td>
   );

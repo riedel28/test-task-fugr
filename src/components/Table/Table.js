@@ -6,6 +6,10 @@ import {
   usePagination,
 } from 'react-table';
 
+import TableHead from './TableHead';
+import TableBody from './TableBody';
+import TableRow from './TableRow';
+import TableCell from './TableCell';
 import Switcher from '../Switcher/Switcher';
 import Filter from '../Filter/Filter';
 import InfoCard from '../InfoCard/InfoCard';
@@ -114,11 +118,11 @@ const Table = ({
                 data-testid="table"
                 {...getTableProps()}
               >
-                <thead>
+                <TableHead>
                   {headerGroups.map((headerGroup) => (
                     <tr
                       {...headerGroup.getHeaderGroupProps()}
-                      data-testId="table-head-id"
+                      data-testid="table-head-id"
                     >
                       {headerGroup.headers.map((column) => (
                         <th
@@ -139,14 +143,12 @@ const Table = ({
                       ))}
                     </tr>
                   ))}
-                </thead>
-                <tbody {...getTableBodyProps()} data-testId="table-body">
+                </TableHead>
+                <TableBody {...getTableBodyProps()}>
                   {page.map((row) => {
                     prepareRow(row);
                     return (
-                      <tr
-                        className="hover:bg-gray-300 cursor-pointer"
-                        onClick={handleSelectUser}
+                      <TableRow
                         {...row.getRowProps({
                           onClick: (e) =>
                             handleSelectUser &&
@@ -155,18 +157,15 @@ const Table = ({
                       >
                         {row.cells.map((cell) => {
                           return (
-                            <td
-                              className="border px-4 py-2"
-                              {...cell.getCellProps()}
-                            >
+                            <TableCell {...cell.getCellProps()}>
                               {cell.render('Cell')}
-                            </td>
+                            </TableCell>
                           );
                         })}
-                      </tr>
+                      </TableRow>
                     );
                   })}
-                </tbody>
+                </TableBody>
               </table>
             )}
           </>
