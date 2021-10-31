@@ -10,8 +10,7 @@ export default function useFetchData(url) {
 
     try {
       const response = await fetch(url, {
-        headers: { accept: 'Accept: application/json' },
-        mode: 'cors',
+        headers: { 'Content-type': 'application/json' },
       });
       const dataFromApi = await response.json();
 
