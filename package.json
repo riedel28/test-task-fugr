@@ -3,23 +3,28 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@craco/craco": "^6.4.0",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "autoprefixer": "^9.8.4",
     "lodash.sortby": "^4.7.0",
     "postcss-cli": "^7.1.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
     "react-loader-spinner": "^3.1.14",
     "react-scripts": "^4.0.1",
-    "react-table": "^7.7.0",
-    "tailwindcss": "^1.4.6"
+    "react-table": "^7.7.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^9.8.8",
+    "husky": "^7.0.4",
+    "postcss": "^7.0.36",
+    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
   },
   "scripts": {
-    "start": "npm run build:css && react-scripts start",
-    "build": "npm run build:css && react-scripts build",
-    "test": "react-scripts test",
+    "start": "craco start",
+    "build": "craco build",
+    "test": "craco test",
     "eject": "react-scripts eject",
     "build:css": "postcss src/styles/tailwind.css -o src/styles/main.css"
   },
@@ -42,8 +47,5 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
-  },
-  "devDependencies": {
-    "husky": "^7.0.4"
   }
 }

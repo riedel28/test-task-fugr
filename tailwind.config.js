@@ -5,7 +5,7 @@ module.exports = {
     defaultLineHeights: true,
     standardFontWeights: true,
   },
-  purge: { layers: ['utilities'] },
+  purge: ['./src/**/*.{js,jsx,ts,tsx}', './public/index.html'],
   target: 'relaxed',
   prefix: '',
   important: false,
