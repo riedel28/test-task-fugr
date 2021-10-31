@@ -31,7 +31,7 @@ docker-compose up
 ### Demo
 
 Your can play around with the app without cloning the repo here:
-[https://test-task-fugr.netlify.app](http://test-task-fugr.surge.sh)
+[http://test-task-fugr.surge.sh](http://test-task-fugr.surge.sh)
 
 ---
 
