@@ -1,5 +1,5 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import Table from './Table';
 
 let tableProps;
@@ -36,23 +36,23 @@ beforeAll(() => {
 
 describe('Table', () => {
   test('renders Table component', () => {
-    const { getByTestId } = render(<Table {...tableProps} />);
-    const table = getByTestId('table');
+    render(<Table {...tableProps} />);
+    const table = screen.getByTestId('table');
 
     expect(table).toBeInTheDocument();
   });
 
   test('table should have 3 rows', () => {
-    const { getByTestId } = render(<Table {...tableProps} />);
-    const tableBody = getByTestId('table-body');
+    render(<Table {...tableProps} />);
+    const tableBody = screen.getByTestId('table-body');
 
     expect(tableBody.children).toHaveLength(tableProps.data.length);
   });
 
   test('should sort by id in descending order', () => {
-    const { getByTestId } = render(<Table {...tableProps} />);
-    const tableBody = getByTestId('table-body');
-    const tableHeadId = getByTestId('table-head-id');
+    render(<Table {...tableProps} />);
+    const tableBody = screen.getByTestId('table-body');
+    const tableHeadId = screen.getByTestId('table-head-id');
     const [firstRow] = tableBody.children;
 
     fireEvent.click(tableHeadId);

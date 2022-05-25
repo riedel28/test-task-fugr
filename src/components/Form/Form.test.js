@@ -1,47 +1,46 @@
 import React from 'react';
-import { fireEvent, render } from '@testing-library/react';
+import { fireEvent, render, screen } from '@testing-library/react';
 import Form from './Form';
 
 describe('Form', () => {
   test('renders Form open button', () => {
-    const { getByTestId } = render(<Form />);
+    render(<Form />);
+    const openFormButton = screen.getByTestId('form-open-button');
 
-    const openFormButton = getByTestId('form-open-button');
     expect(openFormButton).toBeInTheDocument();
   });
 
   test('opens Form component by clicking button', () => {
-    const { getByTestId } = render(<Form />);
-
-    const openFormButton = getByTestId('form-open-button');
+    render(<Form />);
+    const openFormButton = screen.getByTestId('form-open-button');
     fireEvent.click(openFormButton);
 
-    const form = getByTestId('form');
+    const form = screen.getByTestId('form');
 
     expect(form).toBeInTheDocument();
     expect(openFormButton).toHaveTextContent('Close form');
   });
 
   test('inputs and labels to be in the form', () => {
-    const { getByTestId, getByLabelText } = render(<Form />);
+    render(<Form />);
 
-    const openFormButton = getByTestId('form-open-button');
+    const openFormButton = screen.getByTestId('form-open-button');
     fireEvent.click(openFormButton);
 
-    expect(getByLabelText(/id/i)).toBeInTheDocument();
-    expect(getByLabelText(/first name/i)).toBeInTheDocument();
-    expect(getByLabelText(/last name/i)).toBeInTheDocument();
-    expect(getByLabelText(/email/i)).toBeInTheDocument();
-    expect(getByLabelText(/phone/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/id/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/first name/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/last name/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+    expect(screen.getByLabelText(/phone/i)).toBeInTheDocument();
   });
 
   test('button to be disabled, if inputs are empty', () => {
-    const { getByTestId } = render(<Form />);
+    render(<Form />);
 
-    const openFormButton = getByTestId('form-open-button');
+    const openFormButton = screen.getByTestId('form-open-button');
     fireEvent.click(openFormButton);
 
-    const addUserButton = getByTestId('add-user-button');
+    const addUserButton = screen.getByTestId('add-user-button');
     fireEvent.click(addUserButton);
 
     expect(addUserButton).toBeDisabled();
@@ -49,32 +48,32 @@ describe('Form', () => {
 
   test('form to be submitted', () => {
     const handleSubmit = jest.fn();
-    const { getByTestId } = render(<Form onAddItem={handleSubmit} />);
+    render(<Form onAddItem={handleSubmit} />);
 
-    const openFormButton = getByTestId('form-open-button');
+    const openFormButton = screen.getByTestId('form-open-button');
     fireEvent.click(openFormButton);
 
-    fireEvent.change(getByTestId('input-id'), {
+    fireEvent.change(screen.getByTestId('input-id'), {
       target: { value: '999' },
     });
-    fireEvent.change(getByTestId('input-firstName'), {
+    fireEvent.change(screen.getByTestId('input-firstName'), {
       target: { value: 'John' },
     });
-    fireEvent.change(getByTestId('input-lastName'), {
+    fireEvent.change(screen.getByTestId('input-lastName'), {
       target: { value: 'Doe' },
     });
-    fireEvent.change(getByTestId('input-email'), {
+    fireEvent.change(screen.getByTestId('input-email'), {
       target: { value: 'xyz@example.com' },
     });
-    fireEvent.change(getByTestId('input-phone'), {
+    fireEvent.change(screen.getByTestId('input-phone'), {
       target: { value: '(123) 456-7891' },
     });
 
-    const addUserButton = getByTestId('add-user-button');
+    const addUserButton = screen.getByTestId('add-user-button');
     fireEvent.click(addUserButton);
 
     expect(handleSubmit).toHaveBeenCalledTimes(1);
-    expect(getByTestId('form-open-button')).toHaveTextContent(
+    expect(screen.getByTestId('form-open-button')).toHaveTextContent(
       'Add to the table'
     );
   });
