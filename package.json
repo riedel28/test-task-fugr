@@ -3,30 +3,29 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
-    "@craco/craco": "^6.4.0",
-    "@testing-library/jest-dom": "^4.2.4",
-    "@testing-library/react": "^9.3.2",
-    "@testing-library/user-event": "^7.1.2",
+    "@testing-library/jest-dom": "^5.16.4",
+    "@testing-library/react": "^13.2.0",
+    "@testing-library/user-event": "^14.2.0",
     "lodash.sortby": "^4.7.0",
-    "postcss-cli": "^7.1.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "react-loader-spinner": "^3.1.14",
-    "react-scripts": "^4.0.1",
-    "react-table": "^7.7.0"
+    "postcss-cli": "^9.1.0",
+    "react": "^18.1.0",
+    "react-dom": "^18.1.0",
+    "react-loader-spinner": "6.0.0-0",
+    "react-scripts": "^5.0.1",
+    "react-table": "^7.8.0"
   },
   "devDependencies": {
-    "autoprefixer": "^9.8.8",
-    "husky": "^7.0.4",
-    "postcss": "^7.0.36",
-    "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17"
+    "autoprefixer": "^10.4.7",
+    "husky": "^8.0.1",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.0.24"
   },
   "scripts": {
-    "start": "craco start",
-    "build": "craco build",
-    "test": "craco test",
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "build:css": "postcss src/styles/tailwind.css -o src/styles/main.css"
+    "build:css": "npx tailwindcss -i ./src/styles/tailwind.css -o ./src/styles/main.css --watch"
   },
   "husky": {
     "hooks": {
