@@ -23,7 +23,7 @@ export const Input = ({
 }) => {
   return (
     <input
-      className={`text-gray-700 border border-gray-300 appearance-none mr-1 py-2 px-4 text-gray-700 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 rounded ${
+      className={`text-gray-700 border border-gray-300 appearance-none mr-1 py-2 px-4  leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 rounded ${
         error ? 'border-pink-600' : 'border-gray-300'
       }`}
       id={id}

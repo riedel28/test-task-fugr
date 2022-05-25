@@ -113,60 +113,77 @@ const Table = ({
                 <p>Try again.</p>
               </div>
             ) : (
-              <table
-                className="table-auto w-full border mb-4 rounded"
-                data-testid="table"
-                {...getTableProps()}
-              >
-                <TableHead>
-                  {headerGroups.map((headerGroup) => (
-                    <tr
-                      {...headerGroup.getHeaderGroupProps()}
-                      data-testid="table-head-id"
-                    >
-                      {headerGroup.headers.map((column) => (
-                        <th
-                          className="border text-gray-800 font-semibold px-4 py-2 hover:bg-gray-300 cursor-pointer"
-                          {...column.getHeaderProps(
-                            column.getSortByToggleProps()
-                          )}
-                        >
-                          {column.render('Header')}
-                          <span>
-                            {column.isSorted
-                              ? column.isSortedDesc
-                                ? ' ↑'
-                                : ' ↓'
-                              : ''}
-                          </span>
-                        </th>
-                      ))}
-                    </tr>
-                  ))}
-                </TableHead>
-                <TableBody {...getTableBodyProps()}>
-                  {page.map((row) => {
-                    prepareRow(row);
-                    return (
-                      <TableRow
-                        {...row.getRowProps({
-                          onClick: (e) =>
-                            handleSelectUser &&
-                            handleSelectUser(row.original, e),
-                        })}
+              <div className="mt-3 flex flex-col">
+                <div className="-my-2 -mx-4 overflow-x-auto sm:-mx-6 lg:-mx-8">
+                  <div className="inline-block min-w-full py-2 align-middle md:px-6 lg:px-8">
+                    <div className="overflow-hidden ring-1 ring-black ring-opacity-5 md:rounded-md">
+                      <table
+                        className="table-auto w-full  mb-4 rounded-md"
+                        data-testid="table"
+                        {...getTableProps()}
                       >
-                        {row.cells.map((cell) => {
-                          return (
-                            <TableCell {...cell.getCellProps()}>
-                              {cell.render('Cell')}
-                            </TableCell>
-                          );
-                        })}
-                      </TableRow>
-                    );
-                  })}
-                </TableBody>
-              </table>
+                        <thead className="bg-gray-50 border-b-2">
+                          {headerGroups.map((headerGroup) => (
+                            <tr
+                              {...headerGroup.getHeaderGroupProps()}
+                              data-testid="table-head-id"
+                            >
+                              {headerGroup.headers.map((column) => (
+                                <th
+                                  scope="col"
+                                  className="py-3.5 pl-4 pr-3 text-left text-sm font-semibold hover:bg-gray-100 text-gray-700 sm:pl-6"
+                                  {...column.getHeaderProps(
+                                    column.getSortByToggleProps()
+                                  )}
+                                >
+                                  {column.render('Header')}
+                                  <span>
+                                    {column.isSorted
+                                      ? column.isSortedDesc
+                                        ? ' ↑'
+                                        : ' ↓'
+                                      : ''}
+                                  </span>
+                                </th>
+                              ))}
+                            </tr>
+                          ))}
+                        </thead>
+
+                        <tbody
+                          className="divide-y divide-gray-200 bg-white"
+                          {...getTableBodyProps()}
+                        >
+                          {page.map((row) => {
+                            prepareRow(row);
+                            return (
+                              <tr
+                                className="hover:bg-gray-50 hover:cursor-pointer"
+                                {...row.getRowProps({
+                                  onClick: (e) =>
+                                    handleSelectUser &&
+                                    handleSelectUser(row.original, e),
+                                })}
+                              >
+                                {row.cells.map((cell) => {
+                                  return (
+                                    <td
+                                      className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+                                      {...cell.getCellProps()}
+                                    >
+                                      {cell.render('Cell')}
+                                    </td>
+                                  );
+                                })}
+                              </tr>
+                            );
+                          })}
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </div>
             )}
           </>
         );
@@ -179,7 +196,7 @@ const Table = ({
 
   return (
     <>
-      <div className="flex w-full justify-between mb-2">
+      <div className="flex w-full justify-between mb-1">
         <Switcher
           onSelect={setAmountOfRecords}
           amountOfRecords={amountOfRecords}

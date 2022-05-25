@@ -2,7 +2,7 @@ import React from 'react';
 
 const TableCell = ({ children, ...rest }) => {
   return (
-    <td className="border px-4 py-2" {...rest}>
+    <td className="whitespace-nowrap px-3 py-4 text-sm text-gray-500" {...rest}>
       {children}
     </td>
   );
