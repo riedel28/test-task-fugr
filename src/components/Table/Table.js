@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useMemo } from 'react';
 import {
   useTable,
   useSortBy,
@@ -6,16 +6,12 @@ import {
   usePagination,
 } from 'react-table';
 
-import TableHead from './TableHead';
-import TableBody from './TableBody';
-import TableRow from './TableRow';
-import TableCell from './TableCell';
 import Switcher from '../Switcher/Switcher';
 import Filter from '../Filter/Filter';
-import InfoCard from '../InfoCard/InfoCard';
 import Pagination from '../Pagination/Pagination';
 import Preloader from '../Preloader/Preloader';
 import ErrorMessage from '../ErrorMessage/ErrorMessage';
+import UserModal from './UserModal';
 
 const Table = ({
   data: tableData,
@@ -25,6 +21,7 @@ const Table = ({
   error,
 }) => {
   const [selectedUser, setSelectedUser] = useState(null);
+  const [open, setOpen] = useState(true);
 
   const data = useMemo(() => tableData, [tableData]);
 
@@ -77,17 +74,18 @@ const Table = ({
     usePagination
   );
 
-  useEffect(() => {
-    if (selectedUser) {
-      window.scroll({
-        top: document.body.scrollHeight,
-        behavior: 'smooth',
-      });
-    }
-  }, [selectedUser]);
+  // useEffect(() => {
+  //   if (selectedUser) {
+  //     window.scroll({
+  //       top: document.body.scrollHeight,
+  //       behavior: 'smooth',
+  //     });
+  //   }
+  // }, [selectedUser]);
 
   const handleSelectUser = (user) => {
     setSelectedUser(tableData.find(({ id }) => id === user.id));
+    setOpen(true);
   };
 
   const handleHideInfoCard = () => {
@@ -158,7 +156,11 @@ const Table = ({
                             prepareRow(row);
                             return (
                               <tr
-                                className="hover:bg-gray-50 hover:cursor-pointer"
+                                className={`${
+                                  row.original.id === selectedUser?.id
+                                    ? 'bg-slate-50'
+                                    : ''
+                                } hover:bg-gray-50 hover:cursor-pointer`}
                                 {...row.getRowProps({
                                   onClick: (e) =>
                                     handleSelectUser &&
@@ -166,9 +168,14 @@ const Table = ({
                                 })}
                               >
                                 {row.cells.map((cell) => {
+                                  const isName =
+                                    cell.column.id === 'firstName' ||
+                                    cell.column.id === 'lastName';
                                   return (
                                     <td
-                                      className="whitespace-nowrap px-3 py-4 text-sm text-gray-500"
+                                      className={`whitespace-nowrap px-3 py-4 text-sm text-gray-${
+                                        isName ? '700' : '500'
+                                      }`}
                                       {...cell.getCellProps()}
                                     >
                                       {cell.render('Cell')}
@@ -203,10 +210,10 @@ const Table = ({
         />
         <Filter onFilter={setGlobalFilter} />
       </div>
-      {displayTable()}
       {selectedUser && (
-        <InfoCard user={selectedUser} onClose={handleHideInfoCard} />
+        <UserModal open={open} onClose={setOpen} user={selectedUser} />
       )}
+      {displayTable()}
       {pageOptions.length > 1 && (
         <Pagination
           totalPagesCount={pageCount}

@@ -18,11 +18,11 @@ const Filter = ({ onFilter }) => {
 
   return (
     <form
-      className="flex flex-row flex-1 justify-end"
+      className="flex flex-row flex-1 justify-end "
       onSubmit={handleSubmit}
       data-testid="filter"
     >
-      <div>
+      <div className="w-2/6">
         <label htmlFor="search" className="sr-only">
           Search
         </label>
@@ -33,7 +33,6 @@ const Filter = ({ onFilter }) => {
               name="search"
               id="search"
               className="focus:ring-indigo-500 focus:border-indigo-500 block w-full rounded-none rounded-l-md pl-4 sm:text-sm border border-gray-300"
-              placeholder="Search..."
               onChange={handleChange}
             />
           </div>

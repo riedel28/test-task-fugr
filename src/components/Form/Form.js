@@ -79,8 +79,8 @@ const Form = ({ onAddItem }) => {
       <div>
         <h1 className="text-xl font-semibold text-gray-900">Users</h1>
         <p className="mt-2 text-sm text-gray-700">
-          A list of all the users in your account including their name, title,
-          email and role.
+          A list of all the users in your account including their name, email
+          and phone
         </p>
       </div>
       <div className="mb-3">

@@ -1,7 +1,5 @@
 import React, { useState, useEffect } from 'react';
 
-import './styles/main.css';
-
 import Body from './components/Body/Body';
 import Container from './components/Container/Container';
 import Header from './components/Header/Header';
@@ -10,6 +8,8 @@ import Table from './components/Table/Table';
 
 import { getUrl } from './api';
 import useFetchData from './hooks/useFetchData';
+
+import './styles/main.css';
 
 function App() {
   const [list, setList] = useState([]);
