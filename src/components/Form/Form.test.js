@@ -48,7 +48,7 @@ describe('Form', () => {
 
   test('form to be submitted', () => {
     const handleSubmit = jest.fn();
-    render(<Form onAddItem={handleSubmit} />);
+    render(<Form onAddUser={handleSubmit} />);
 
     const openFormButton = screen.getByTestId('form-open-button');
     fireEvent.click(openFormButton);

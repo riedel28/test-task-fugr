@@ -699,6 +699,10 @@ Ensure the default browser behavior of the `hidden` attribute.
   width: 1.5rem;
 }
 
+.w-auto {
+  width: auto;
+}
+
 .min-w-full {
   min-width: 100%;
 }
@@ -827,6 +831,14 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-radius: 9999px;
 }
 
+.rounded-lg {
+  border-radius: 0.5rem;
+}
+
+.rounded-sm {
+  border-radius: 0.125rem;
+}
+
 .rounded-l-md {
   border-top-left-radius: 0.375rem;
   border-bottom-left-radius: 0.375rem;
@@ -845,6 +857,16 @@ Ensure the default browser behavior of the `hidden` attribute.
 .rounded-l-none {
   border-top-left-radius: 0px;
   border-bottom-left-radius: 0px;
+}
+
+.rounded-l-sm {
+  border-top-left-radius: 0.125rem;
+  border-bottom-left-radius: 0.125rem;
+}
+
+.rounded-r-sm {
+  border-top-right-radius: 0.125rem;
+  border-bottom-right-radius: 0.125rem;
 }
 
 .border {
@@ -884,6 +906,11 @@ Ensure the default browser behavior of the `hidden` attribute.
 
 .border-transparent {
   border-color: transparent;
+}
+
+.border-indigo-500 {
+  --tw-border-opacity: 1;
+  border-color: rgb(99 102 241 / var(--tw-border-opacity));
 }
 
 .bg-gray-100 {
@@ -1151,6 +1178,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
 
+.outline-none {
+  outline: 2px solid transparent;
+  outline-offset: 2px;
+}
+
 .ring-1 {
   --tw-ring-offset-shadow: var(--tw-ring-inset) 0 0 0 var(--tw-ring-offset-width) var(--tw-ring-offset-color);
   --tw-ring-shadow: var(--tw-ring-inset) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color);
@@ -1237,6 +1269,11 @@ Ensure the default browser behavior of the `hidden` attribute.
   border-color: rgb(99 102 241 / var(--tw-border-opacity));
 }
 
+.focus\:border-pink-600:focus {
+  --tw-border-opacity: 1;
+  border-color: rgb(219 39 119 / var(--tw-border-opacity));
+}
+
 .focus\:bg-white:focus {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
@@ -1302,6 +1339,10 @@ Ensure the default browser behavior of the `hidden` attribute.
 
   .sm\:ml-4 {
     margin-left: 1rem;
+  }
+
+  .sm\:mr-4 {
+    margin-right: 1rem;
   }
 
   .sm\:block {
