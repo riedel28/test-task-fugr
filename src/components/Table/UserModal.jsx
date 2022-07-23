@@ -71,53 +71,60 @@ const UserModal = ({ open, onClose, user }) => {
                 <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:text-left">
                   <Dialog.Title
                     as="h3"
-                    className="text-xl leading-6 font-semibold text-gray-700 mb-3"
+                    className="text-md leading-6 font-semibold text-gray-500 mb-3"
                   >
-                    {firstName}&nbsp;{lastName}
+                    Выбран пользователь
                   </Dialog.Title>
+                  <div className="mt-6 text-lg text-gray-700 font-semibold">
+                    {firstName}&nbsp;{lastName}
+                  </div>
                   <div className="mt-1">
                     <div className="bg-white overflow-hidden sm:rounded-md">
                       <div className="py-5 sm:p-0">
                         <dl className="">
                           <div className="py-4">
                             <dt className="text-sm font-medium text-gray-500 mb-1">
-                              Description
+                              Описание
                             </dt>
                             <dd className="mt-1 text-sm text-gray-700 sm:mt-0 ">
                               {description}
                             </dd>
                           </div>
-                          <div className="py-4">
-                            <dt className="text-sm font-medium text-gray-500 mb-1">
-                              Street
-                            </dt>
-                            <dd className="mt-1 text-sm text-gray-700 sm:mt-0 ">
-                              {streetAddress}
-                            </dd>
+                          <div className="flex">
+                            <div className="py-4 w-1/2">
+                              <dt className="text-sm font-medium text-gray-500 mb-1">
+                                Улица
+                              </dt>
+                              <dd className="mt-1 text-sm text-gray-700 sm:mt-0 ">
+                                {streetAddress}
+                              </dd>
+                            </div>
+                            <div className="py-4 w-1/2">
+                              <dt className="text-sm font-medium text-gray-500 mb-1">
+                                Индекс
+                              </dt>
+                              <dd className="mt-1 text-sm text-gray-700 sm:mt-0 ">
+                                {zip}
+                              </dd>
+                            </div>
                           </div>
-                          <div className="py-4 sm:py-5 ">
-                            <dt className="text-sm font-medium text-gray-500 mb-1">
-                              Zip
-                            </dt>
-                            <dd className="mt-1 text-sm text-gray-700 sm:mt-0 ">
-                              {zip}
-                            </dd>
-                          </div>
-                          <div className="py-4 sm:py-5 ">
-                            <dt className="text-sm font-medium text-gray-500 mb-1">
-                              City
-                            </dt>
-                            <dd className="mt-1 text-sm text-gray-700 sm:mt-0 ">
-                              {city}
-                            </dd>
-                          </div>
-                          <div className="py-4 sm:py-5 ">
-                            <dt className="text-sm font-medium text-gray-500 mb-1">
-                              State
-                            </dt>
-                            <dd className="mt-1 text-sm text-gray-700 sm:mt-0 ">
-                              {state}
-                            </dd>
+                          <div className="flex">
+                            <div className="py-4 w-1/2 sm:py-5 ">
+                              <dt className="text-sm font-medium text-gray-500 mb-1">
+                                Город
+                              </dt>
+                              <dd className="mt-1 text-sm text-gray-700 sm:mt-0 ">
+                                {city}
+                              </dd>
+                            </div>
+                            <div className="py-4 w-1/2 sm:py-5 ">
+                              <dt className="text-sm font-medium text-gray-500 mb-1">
+                                Штат
+                              </dt>
+                              <dd className="mt-1 text-sm text-gray-700 sm:mt-0 ">
+                                {state}
+                              </dd>
+                            </div>
                           </div>
                         </dl>
                       </div>
