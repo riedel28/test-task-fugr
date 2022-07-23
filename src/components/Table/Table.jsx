@@ -74,22 +74,9 @@ const Table = ({
     usePagination
   );
 
-  // useEffect(() => {
-  //   if (selectedUser) {
-  //     window.scroll({
-  //       top: document.body.scrollHeight,
-  //       behavior: 'smooth',
-  //     });
-  //   }
-  // }, [selectedUser]);
-
   const handleSelectUser = (user) => {
     setSelectedUser(tableData.find(({ id }) => id === user.id));
     setOpen(true);
-  };
-
-  const handleHideInfoCard = () => {
-    setSelectedUser(null);
   };
 
   const displayTable = () => {
@@ -150,6 +137,7 @@ const Table = ({
 
                         <tbody
                           className="divide-y divide-gray-200 bg-white"
+                          data-testid="table-body"
                           {...getTableBodyProps()}
                         >
                           {page.map((row) => {

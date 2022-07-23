@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 
 import Body from './components/Body/Body';
 import Container from './components/Container/Container';
-import Form from './components/Form/Form';
+import FormModal from './components/Form/FormModal';
 import Table from './components/Table/Table';
 
 import { getUrl } from './api';
@@ -43,7 +43,7 @@ function App() {
             >
               Add user
             </Button>
-            <Form
+            <FormModal
               open={formModalVisible}
               onAddUser={handleAddUser}
               onClose={setFormModalVisible}

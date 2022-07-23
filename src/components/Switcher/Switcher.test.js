@@ -13,7 +13,7 @@ describe('Switcher', () => {
   test('should run onSelect function by clicking a button', () => {
     const handleSelect = jest.fn();
     render(<Switcher onSelect={handleSelect} />);
-    const showMoreButton = screen.getByText(/show more/i);
+    const showMoreButton = screen.getByText(/1000/i);
 
     fireEvent.click(showMoreButton);
 
