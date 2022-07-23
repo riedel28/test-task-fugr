@@ -1,11 +1,11 @@
 import React from 'react';
-import { render } from '@testing-library/react';
+import { render, screen } from '@testing-library/react';
 import App from './App';
 
 describe('App', () => {
   test('renders App component', () => {
-    const { getByText } = render(<App />);
-    const button = getByText(/add to the table/i);
+    render(<App />);
+    const button = screen.getByText(/add user/i);
 
     expect(button).toBeInTheDocument();
   });

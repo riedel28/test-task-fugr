@@ -1,9 +1,9 @@
 import React from 'react';
-import Loader from 'react-loader-spinner';
+import { Bars as Loader } from 'react-loader-spinner';
 
 const Spinner = () => {
   return (
-    <div className="m-10" data-testid="preloader">
+    <div className="m-32 flex justify-center" data-testid="preloader">
       <Loader
         type="TailSpin"
         color="#667eea"
