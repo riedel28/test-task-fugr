@@ -13,8 +13,8 @@ describe('Filter', () => {
   test('should run onFilter function ', () => {
     const handleSearch = jest.fn();
     render(<Filter onFilter={handleSearch} />);
-    const filterInput = screen.getByTestId('filter-input');
-    const findButton = screen.getByText(/find/i);
+    const filterInput = screen.getByRole('textbox');
+    const findButton = screen.getByRole('button');
 
     fireEvent.change(filterInput, { target: { value: 'abc' } });
     fireEvent.click(findButton);
