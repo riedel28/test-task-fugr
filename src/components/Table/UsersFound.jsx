@@ -1,12 +1,10 @@
 import React from 'react';
 import { displayUsersFoundMessage } from '../../helpers';
 
+import styles from './UsersFound.module.css';
+
 const UsersFound = ({ count }) => {
-  return (
-    <p className="my-4 font-semibold text-gray-800 text-lg">
-      {displayUsersFoundMessage(count)}
-    </p>
-  );
+  return <p className={styles.text}>{displayUsersFoundMessage(count)}</p>;
 };
 
 export default UsersFound;

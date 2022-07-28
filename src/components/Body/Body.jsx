@@ -1,7 +1,9 @@
 import React from 'react';
 
+import styles from './Body.module.css';
+
 const Body = ({ children }) => {
-  return <div className="font-sans min-h-screen bg-gray-100 ">{children}</div>;
+  return <div className={styles.body}>{children}</div>;
 };
 
 export default Body;

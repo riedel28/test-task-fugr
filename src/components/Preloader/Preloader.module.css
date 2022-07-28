@@ -1,0 +1,3 @@
+.wrapper {
+  @apply m-32 flex justify-center;
+}

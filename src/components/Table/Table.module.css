@@ -1,0 +1,50 @@
+.contentWrapper {
+  @apply flex w-full justify-between mb-1;
+}
+
+.table {
+  @apply table-auto w-full mb-4 rounded-md;
+}
+
+.tableWrapper {
+  @apply inline-block min-w-full py-2 align-middle;
+}
+
+.overflowWrapper {
+  @apply overflow-hidden ring-1 ring-black ring-opacity-5 md:rounded-md;
+}
+
+.thead {
+  @apply bg-gray-50 border-b-2;
+}
+
+.th {
+  @apply py-3.5 pl-4 pr-3 text-left text-sm font-semibold hover:bg-gray-100 text-gray-700 sm:pl-6;
+}
+
+.tbody {
+  @apply divide-y divide-gray-200 bg-white;
+}
+
+.tr {
+  @apply hover:bg-gray-50 hover:cursor-pointer;
+}
+
+.tr.selected {
+  @apply bg-slate-50;
+}
+
+.td {
+  @apply whitespace-nowrap px-3 py-4 text-sm text-gray-500;
+}
+.td.selected {
+  @apply text-gray-700;
+}
+
+.notFound {
+  @apply text-center border-none py-6;
+}
+
+.notFoundTitle {
+  @apply font-semibold text-gray-800 text-xl;
+}

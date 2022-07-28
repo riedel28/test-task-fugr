@@ -1,0 +1,7 @@
+.wrapper {
+  @apply text-center border-none py-6;
+}
+
+.heading {
+  @apply font-semibold text-gray-800 text-xl;
+}

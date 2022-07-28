@@ -1,11 +1,11 @@
 import React from 'react';
+import cx from 'clsx';
+
+import styles from './Field.module.css';
 
 export const Label = ({ htmlFor, label }) => {
   return (
-    <label
-      className="text-sm font-medium text-gray-500 mb-1 w-100"
-      htmlFor={htmlFor}
-    >
+    <label className={styles.label} htmlFor={htmlFor}>
       {label}
     </label>
   );
@@ -23,11 +23,7 @@ export const Input = ({
 }) => {
   return (
     <input
-      className={`w-auto text-gray-700 border border-gray-300 appearance-none py-2.5 px-4 leading-tight focus:outline-none focus:bg-white ${
-        error ? 'focus:border-pink-600' : 'focus:border-indigo-500'
-      } ${
-        error ? 'border-pink-600' : 'border-gray-300'
-      } focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border border-gray-300 rounded-md`}
+      className={cx(styles.input, error && styles.inputError)}
       id={id}
       type={type === 'email' ? 'email' : 'text'}
       name={name}
@@ -50,7 +46,7 @@ const InputWithLabel = ({
   testId = '',
 }) => {
   return (
-    <div className="py-3 flex flex-col">
+    <div className={styles.field}>
       <Label htmlFor={id} label={label} />
       <Input
         id={id}
@@ -61,7 +57,7 @@ const InputWithLabel = ({
         error={error}
         testId={testId}
       />
-      {error && <span className=" text-pink-600 text-sm mt-1">{error}</span>}
+      {error && <span className={styles.error}>{error}</span>}
     </div>
   );
 };

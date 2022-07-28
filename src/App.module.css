@@ -1,0 +1,11 @@
+.header {
+  @apply flex justify-between mb-4 mt-2;
+}
+
+.title {
+  @apply text-xl font-semibold text-gray-900;
+}
+
+.subtitle {
+  @apply mt-2 text-sm text-gray-700;
+}
