@@ -1,7 +1,9 @@
 import React from 'react';
 
+import styles from './Container.module.css';
+
 const Container = ({ children }) => {
-  return <div className="md:container md:mx-auto px-4 py-2">{children}</div>;
+  return <div className={styles.wrapper}>{children}</div>;
 };
 
 export default Container;

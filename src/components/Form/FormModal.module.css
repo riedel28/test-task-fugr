@@ -1,0 +1,55 @@
+.dialog {
+  @apply fixed z-10 inset-0 overflow-y-auto;
+}
+
+.wrapper {
+  @apply flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0;
+}
+
+.overlay {
+  @apply fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity;
+}
+
+.body {
+  @apply relative inline-block align-bottom bg-white rounded-md px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6;
+}
+
+.buttonWrapper {
+  @apply hidden sm:block absolute top-0 right-0 pt-4 pr-4;
+}
+
+.button {
+  @apply bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500;
+}
+
+.hiddenLabel {
+  @apply sr-only;
+}
+
+.buttonIcon {
+  @apply h-6 w-6;
+}
+
+.content {
+  @apply sm:flex sm:items-start;
+}
+
+.header {
+  @apply mt-3 text-center sm:mt-0 sm:ml-4 sm:mr-4 sm:text-left w-full;
+}
+
+.title {
+  @apply text-sm leading-6 font-semibold text-gray-500 mb-3;
+}
+
+.centered {
+  @apply hidden sm:inline-block sm:align-middle sm:h-screen;
+}
+
+.formWrapper {
+  @apply mt-1 bg-white overflow-hidden sm:rounded-md;
+}
+
+.formFooter {
+  @apply flex flex-row w-full justify-end mt-2;
+}

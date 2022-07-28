@@ -1,4 +1,7 @@
 import React from 'react';
+import cx from 'clsx';
+
+import styles from './Switcher.module.css';
 
 const Switcher = ({ onSelect, amountOfRecords }) => {
   return (
@@ -7,17 +10,15 @@ const Switcher = ({ onSelect, amountOfRecords }) => {
         onClick={() => {
           onSelect(1000);
         }}
-        className={`${
-          amountOfRecords === 1000 ? 'bg-gray-100' : 'bg-transparent'
-        } border border-gray-300  bg-gray-50 hover:bg-gray-100 focus:bg-gray-100 text-gray-700 text-sm font-semibold py-2 px-4 rounded-r-none rounded-md`}
+        className={cx(styles.button, styles.left, {
+          [styles.active]: amountOfRecords === 1000,
+        })}
       >
-        <span className="mr-2">Show</span>
+        <span className={styles.label}>Show</span>
         <span
-          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-            amountOfRecords === 1000
-              ? 'bg-indigo-100 text-indigo-800'
-              : 'bg-gray-200 text-gray-800'
-          }`}
+          className={cx(styles.tag, {
+            [styles.active]: amountOfRecords === 1000,
+          })}
         >
           1000
         </span>
@@ -26,17 +27,15 @@ const Switcher = ({ onSelect, amountOfRecords }) => {
         onClick={() => {
           onSelect(32);
         }}
-        className={`${
-          amountOfRecords === 32 ? 'bg-gray-100' : 'bg-transparent'
-        } border border-l-0 border-gray-300 bg-gray-50 hover:bg-gray-100 focus:bg-gray-100 text-gray-700 text-sm font-semibold py-2 px-4 rounded-l-none rounded-md`}
+        className={cx(styles.button, styles.right, {
+          [styles.active]: amountOfRecords === 32,
+        })}
       >
-        <span className="mr-2">Show</span>
+        <span className={styles.label}>Show</span>
         <span
-          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium ${
-            amountOfRecords === 32
-              ? 'bg-indigo-100 text-indigo-800'
-              : 'bg-gray-200 text-gray-800'
-          }`}
+          className={cx(styles.tag, {
+            [styles.active]: amountOfRecords === 32,
+          })}
         >
           32
         </span>

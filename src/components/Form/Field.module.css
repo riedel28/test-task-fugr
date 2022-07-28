@@ -1,0 +1,19 @@
+.label {
+  @apply text-sm font-medium text-gray-500 mb-1 w-auto;
+}
+
+.input {
+  @apply w-auto text-gray-700 border border-gray-300 appearance-none py-2.5 px-4 leading-tight focus:outline-none focus:bg-white focus:border-indigo-500 focus:ring-indigo-500 block sm:text-sm rounded-md;
+}
+
+.inputError {
+  @apply focus:border-pink-600 border-pink-600;
+}
+
+.field {
+  @apply py-3 flex flex-col;
+}
+
+.error {
+  @apply text-pink-600 text-sm mt-1;
+}

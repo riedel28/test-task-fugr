@@ -1,0 +1,3 @@
+.text {
+  @apply my-4 font-semibold text-gray-800 text-lg;
+}

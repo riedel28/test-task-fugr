@@ -10,6 +10,7 @@ import useFetchData from './hooks/useFetchData';
 
 import './styles/main.css';
 import Button from './components/Button/Button';
+import styles from './App.module.css';
 
 function App() {
   const [list, setList] = useState([]);
@@ -28,15 +29,15 @@ function App() {
   return (
     <Body>
       <Container>
-        <div className="flex justify-between mb-4 mt-2">
+        <header className={styles.header}>
           <div>
-            <h1 className="text-xl font-semibold text-gray-900">Users</h1>
-            <p className="mt-2 text-sm text-gray-700">
+            <h1 className={styles.title}>Users</h1>
+            <p className={styles.subtitle}>
               A list of all the users in your account including their name,
               email and phone
             </p>
           </div>
-          <div className="mb-3">
+          <div>
             <Button
               onClick={() => setFormModalVisible(true)}
               testId="form-open-button"
@@ -49,7 +50,7 @@ function App() {
               onClose={setFormModalVisible}
             />
           </div>
-        </div>
+        </header>
 
         <Table
           data={list}

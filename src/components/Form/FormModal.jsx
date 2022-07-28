@@ -6,6 +6,8 @@ import Field from './Field';
 import Button from '../Button/Button';
 import { isObjEmpty, isEmailValid } from '../../helpers';
 
+import styles from './FormModal.module.css';
+
 export const labels = {
   id: 'ID',
   firstName: 'First Name',
@@ -78,12 +80,8 @@ const Form = ({ onAddUser, open, onClose }) => {
 
   return (
     <Transition.Root show={open} as={Fragment}>
-      <Dialog
-        as="div"
-        className="fixed z-10 inset-0 overflow-y-auto"
-        onClose={() => onClose(false)}
-      >
-        <div className="flex items-end justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
+      <Dialog as="div" className={styles.dialog} onClose={() => onClose(false)}>
+        <div className={styles.wrapper}>
           <Transition.Child
             as={Fragment}
             enter="ease-out duration-300"
@@ -93,14 +91,11 @@ const Form = ({ onAddUser, open, onClose }) => {
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
           >
-            <Dialog.Overlay className="fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity" />
+            <Dialog.Overlay className={styles.overlay} />
           </Transition.Child>
 
           {/* This element is to trick the browser into centering the modal contents. */}
-          <span
-            className="hidden sm:inline-block sm:align-middle sm:h-screen"
-            aria-hidden="true"
-          >
+          <span className={styles.centered} aria-hidden="true">
             &#8203;
           </span>
           <Transition.Child
@@ -112,57 +107,48 @@ const Form = ({ onAddUser, open, onClose }) => {
             leaveFrom="opacity-100 translate-y-0 sm:scale-100"
             leaveTo="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
           >
-            <div className="relative inline-block align-bottom bg-white rounded-md px-4 pt-5 pb-4 text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full sm:p-6">
-              <div className="hidden sm:block absolute top-0 right-0 pt-4 pr-4">
+            <div className={styles.body}>
+              <div className={styles.buttonWrapper}>
                 <button
                   type="button"
-                  className="bg-white rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                  className={styles.button}
                   onClick={() => onClose(false)}
                 >
-                  <span className="sr-only">Close</span>
-                  <XIcon className="h-6 w-6" aria-hidden="true" />
+                  <span className={styles.hiddenLabel}>Close</span>
+                  <XIcon className={styles.buttonIcon} aria-hidden="true" />
                 </button>
               </div>
-              <div className="sm:flex sm:items-start">
-                <div className="mt-3 text-center sm:mt-0 sm:ml-4 sm:mr-4 sm:text-left w-full">
-                  <Dialog.Title
-                    as="h3"
-                    className="text-md leading-6 font-semibold text-gray-500 mb-3"
-                  >
+              <div className={styles.content}>
+                <div className={styles.header}>
+                  <Dialog.Title as="h3" className={styles.title}>
                     Add user
                   </Dialog.Title>
 
-                  <div className="mt-1">
-                    <div className="bg-white overflow-hidden sm:rounded-md">
-                      <form
-                        noValidate
-                        data-testid="form"
-                        onSubmit={handleSubmit}
-                      >
-                        {Object.keys(formValues).map((field) => (
-                          <Field
-                            key={field}
-                            id={field}
-                            label={labels[field]}
-                            type={field === 'email' ? 'email' : 'text'}
-                            name={field}
-                            value={formValues[field]}
-                            onChange={handleChange}
-                            error={errors[field]}
-                            testId={`input-${field}`}
-                          />
-                        ))}
+                  <div className={styles.formWrapper}>
+                    <form noValidate data-testid="form" onSubmit={handleSubmit}>
+                      {Object.keys(formValues).map((field) => (
+                        <Field
+                          key={field}
+                          id={field}
+                          label={labels[field]}
+                          type={field === 'email' ? 'email' : 'text'}
+                          name={field}
+                          value={formValues[field]}
+                          onChange={handleChange}
+                          error={errors[field]}
+                          testId={`input-${field}`}
+                        />
+                      ))}
 
-                        <div className="flex flex-row w-full justify-end mt-2">
-                          <Button
-                            testId="add-user-button"
-                            disabled={!allInputsFilled}
-                          >
-                            Add
-                          </Button>
-                        </div>
-                      </form>
-                    </div>
+                      <div className={styles.formFooter}>
+                        <Button
+                          testId="add-user-button"
+                          disabled={!allInputsFilled}
+                        >
+                          Add
+                        </Button>
+                      </div>
+                    </form>
                   </div>
                 </div>
               </div>
