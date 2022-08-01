@@ -1,6 +1,6 @@
 # Тестовое задание на позицию frontend разработчика
 
-![Screenshot](https://abload.de/img/screenshot2021-02-05a4akuc.png)
+![Screenshot](https://abload.de/img/screenshot2022-07-31ailjpz.png)
 
 
 ## How to start
